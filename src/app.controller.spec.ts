@@ -18,5 +18,8 @@ describe('AppController', () => {
     it('should return "Hello World!"', () => {
       expect(appController.getHello()).toBe('Hello World!');
     });
+    it('should be able describe the service', () => {
+      expect(appController.about()).toBe('This is a Class Attendance Service')
+    })
   });
 });
