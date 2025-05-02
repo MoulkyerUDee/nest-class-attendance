@@ -28,7 +28,7 @@ import { teacher } from './teacher/entities/teacher.entity';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'root',
+      password: '202029295',
       database: 'ClassAttendanceDB',
       entities: [User,Role,Teacher,Classes],
       synchronize: true,
