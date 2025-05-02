@@ -1,6 +1,3 @@
 node_modules
 dist
 coverage
-src/teacher/dto/create-teacher.dto.ts
-src/teacher/dto/update-teacher.dto.ts
-src/teacher/entities/teacher.entity.ts
