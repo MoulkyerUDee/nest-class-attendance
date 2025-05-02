@@ -21,7 +21,7 @@ import { ClassesModule } from './classes/classes.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'root',
+      password: '202029295',
       database: 'ClassAttendanceDB',
       entities: [teacher],
       synchronize: false,
