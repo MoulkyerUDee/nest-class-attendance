@@ -7,8 +7,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { TeacherModule } from './teacher/teacher.module';
-import { teacher } from './teacher/entities/teacher.entity';
+import { Teacher } from './teacher/entities/teacher.entity';
 import { ClassesModule } from './classes/classes.module';
+import { StudentsModule } from './students/students.module';
+import { Student } from './students/entities/student.entity';
 
 @Module({
   imports: [
@@ -23,12 +25,13 @@ import { ClassesModule } from './classes/classes.module';
       username: 'root',
       password: 'root',
       database: 'ClassAttendanceDB',
-      entities: [teacher],
+      entities: [User,Teacher],
       synchronize: false,
     }),
     UsersModule,
     TeacherModule,
-    ClassesModule
+    ClassesModule,
+    StudentsModule
   ],
   controllers: [AppController],
   providers: [AppService],
