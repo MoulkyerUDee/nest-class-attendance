@@ -15,7 +15,7 @@ import { Classes } from './classes/entities/classes.entity';
 import { Role } from './users/entities/role.entity';
 import { RolesModule } from './users/roles.module'; //
 import { TeacherModule } from './teacher/teacher.module';
-import { teacher } from './teacher/entities/teacher.entity';
+import { Teacher } from './teacher/entities/teacher.entity';
 import { ClassesModule } from './classes/classes.module';
 import { StudentsModule } from './students/students.module';
 import { Student } from './students/entities/student.entity';
