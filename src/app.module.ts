@@ -17,6 +17,8 @@ import { RolesModule } from './users/roles.module'; //
 import { TeacherModule } from './teacher/teacher.module';
 import { teacher } from './teacher/entities/teacher.entity';
 import { ClassesModule } from './classes/classes.module';
+import { StudentsModule } from './students/students.module';
+import { Student } from './students/entities/student.entity';
 
 @Module({
   imports: [
@@ -31,7 +33,7 @@ import { ClassesModule } from './classes/classes.module';
       username: 'root',
       password: 'root',
       database: 'ClassAttendanceDB',
-      entities: [User,Role,Teacher,Classes],
+      entities: [User,Role,Teacher,Classes, Student],
       synchronize: true,
     }),
     UsersModule,
@@ -40,7 +42,8 @@ import { ClassesModule } from './classes/classes.module';
     StudentsModule,
     RolesModule, // ✅ Add RolesModule here
     TeacherModule,
-    ClassesModule
+    ClassesModule,
+    StudentsModule
   ],
   controllers: [AppController],
   providers: [AppService],
