@@ -7,7 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { TeacherModule } from './teacher/teacher.module';
-import { teacher } from './teacher/entities/teacher.entity';
+import { Teacher } from './teacher/entities/teacher.entity';
 import { ClassesModule } from './classes/classes.module';
 import { StudentsModule } from './students/students.module';
 import { Student } from './students/entities/student.entity';
@@ -25,11 +25,7 @@ import { Student } from './students/entities/student.entity';
       username: 'root',
       password: 'root',
       database: 'ClassAttendanceDB',
-<<<<<<< HEAD
-      entities: [User,teacher],
-=======
-      entities: [teacher, Student],
->>>>>>> 225401d (Added temporary Students module)
+      entities: [User,Teacher],
       synchronize: false,
     }),
     UsersModule,
