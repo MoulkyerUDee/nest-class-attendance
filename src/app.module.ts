@@ -11,6 +11,7 @@ import { Teacher } from './teacher/entities/teacher.entity';
 import { ClassesModule } from './classes/classes.module';
 import { StudentsModule } from './students/students.module';
 import { Student } from './students/entities/student.entity';
+import { Classes } from './classes/entities/classes.entity';
 
 @Module({
   imports: [
@@ -25,8 +26,8 @@ import { Student } from './students/entities/student.entity';
       username: 'root',
       password: 'root',
       database: 'ClassAttendanceDB',
-      entities: [User,Teacher],
-      synchronize: false,
+      entities: [User,Teacher,Classes],
+      synchronize: true,
     }),
     UsersModule,
     TeacherModule,
