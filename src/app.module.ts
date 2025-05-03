@@ -23,7 +23,7 @@ import { ClassesModule } from './classes/classes.module';
       username: 'root',
       password: 'root',
       database: 'ClassAttendanceDB',
-      entities: [teacher],
+      entities: [User,teacher],
       synchronize: false,
     }),
     UsersModule,
