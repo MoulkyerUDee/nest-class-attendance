@@ -19,6 +19,7 @@ import { Comment } from './comments/entities/comment.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './guards/role.guard';
 import { AuthModule } from './auth/auth.module';
+import { SupervisorModule } from './supervisor/supervisor.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { AuthModule } from './auth/auth.module';
     TeacherModule,
     CommentsModule,
     MeetingsModule,
+    SupervisorModule,
   ],
   controllers: [AppController],
   providers: [
