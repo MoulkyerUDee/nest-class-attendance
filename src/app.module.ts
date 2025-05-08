@@ -13,12 +13,13 @@ import { StudentsModule } from './students/students.module';
 import { Student } from './students/entities/student.entity';
 import { Classes } from './classes/entities/classes.entity';
 import { Role } from './users/entities/role.entity';
+import { RolesModule } from './users/roles.module'; //
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.dev.env'],
-      load: [configuration]
+      load: [configuration],
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -33,9 +34,10 @@ import { Role } from './users/entities/role.entity';
     UsersModule,
     TeacherModule,
     ClassesModule,
-    StudentsModule
+    StudentsModule,
+    RolesModule, // ✅ Add RolesModule here
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
