@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Role } from './role.entity';
+import { RefreshToken } from './refresh-token.entity';
 ;
 
 @Entity()
@@ -21,4 +22,7 @@ export class User {
 
     @OneToMany(() => Role, role => role.user, { cascade: true })
     roles: Role[];
+
+    @OneToMany(() => RefreshToken, token => token.user)
+    refreshTokens: RefreshToken[];
 }
