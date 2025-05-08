@@ -7,12 +7,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { Role } from './users/entities/role.entity';
+import { RolesModule } from './users/roles.module'; //
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.dev.env'],
-      load: [configuration]
+      load: [configuration],
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -21,12 +22,13 @@ import { Role } from './users/entities/role.entity';
       username: 'root',
       password: 'root',
       database: 'ClassAttendanceDB',
-      entities: [User,Role],
+      entities: [User, Role],
       synchronize: true,
     }),
-    UsersModule
+    UsersModule,
+    RolesModule, // ✅ Add RolesModule here
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
