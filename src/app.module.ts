@@ -12,6 +12,7 @@ import { ClassesModule } from './classes/classes.module';
 import { StudentsModule } from './students/students.module';
 import { Student } from './students/entities/student.entity';
 import { Classes } from './classes/entities/classes.entity';
+import { SupervisorModule } from './supervisor/supervisor.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { Classes } from './classes/entities/classes.entity';
     UsersModule,
     TeacherModule,
     ClassesModule,
-    StudentsModule
+    StudentsModule,
+    SupervisorModule
   ],
   controllers: [AppController],
   providers: [AppService],
