@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMeetingDto } from './dto/create-meeting.dto';
 import { UpdateMeetingDto } from './dto/update-meeting.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Meeting } from './entities/meeting.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MeetingsService {
+  constructor(
+    @InjectRepository(Meeting)
+    private meetingRepository: Repository<Meeting>,
+  ) {}
+
   create(createMeetingDto: CreateMeetingDto) {
-    return 'This action adds a new meeting';
+    return this.meetingRepository.save(createMeetingDto);
   }
 
   findAll() {
-    return `This action returns all meetings`;
+    return this.meetingRepository.find;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} meeting`;
+    return this.meetingRepository.findBy({id});
   }
 
   update(id: number, updateMeetingDto: UpdateMeetingDto) {
-    return `This action updates a #${id} meeting`;
+    return this.meetingRepository.update(id, updateMeetingDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} meeting`;
+    return this.meetingRepository.delete(id);
   }
 }

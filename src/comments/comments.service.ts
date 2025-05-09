@@ -3,6 +3,7 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Comment } from './entities/comment.entity';
 
 @Injectable()
 export class CommentsService {
@@ -20,7 +21,7 @@ export class CommentsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} comment`;
+    return this.commentRepository.findBy({id})
   }
 
   update(id: number, updateCommentDto: UpdateCommentDto) {
