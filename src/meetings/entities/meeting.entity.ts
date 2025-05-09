@@ -1,5 +1,6 @@
+import { Classes } from "src/classes/entities/classes.entity";
 import { Comment } from "src/comments/entities/comment.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Meeting {
@@ -14,4 +15,8 @@ export class Meeting {
 
     @OneToMany(() => Comment, comment => comment.meeting)
     comments: Comment[];
+
+    @ManyToOne(() => Classes, classes => classes.meetings)
+    classes: Classes[];
 }
+ 
