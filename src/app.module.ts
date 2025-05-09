@@ -15,6 +15,7 @@ import { StudentsModule } from './students/students.module';
 import { Student } from './students/entities/student.entity';
 import { Classes } from './classes/entities/classes.entity';
 import { CommentsModule } from './comments/comments.module';
+import { MeetingsModule } from './meetings/meetings.module';
 
 @Module({
   imports: [
@@ -40,7 +41,11 @@ import { CommentsModule } from './comments/comments.module';
     TeacherModule,
     ClassesModule,
     StudentsModule,
+<<<<<<< HEAD
     CommentsModule
+=======
+    MeetingsModule
+>>>>>>> cca37dd (added meetings module)
   ],
   controllers: [AppController],
   providers: [AppService],
