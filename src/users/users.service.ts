@@ -22,9 +22,15 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.repo.findOneBy({
+      id
+    });
   }
-
+  findOneByUsername(username:string) {
+    return this.repo.findOneBy({
+      username
+    });
+  }
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }

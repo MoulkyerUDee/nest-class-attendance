@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiHeader, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth,  ApiOperation } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
 
@@ -19,22 +19,25 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @ApiBearerAuth()
   @Roles(Role.Admin, Role.Supervisor)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
+  @ApiBearerAuth()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
 
+  @ApiBearerAuth()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
-
+  @ApiBearerAuth()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
