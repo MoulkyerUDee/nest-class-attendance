@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Comment } from "src/comments/entities/comment.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Meeting {
@@ -11,4 +12,6 @@ export class Meeting {
     @Column()
     createdAt: Date;
 
+    @OneToMany(() => Comment, comment => comment.meeting)
+    comments: Comment[];
 }

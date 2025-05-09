@@ -33,7 +33,7 @@ import { Comment } from './comments/entities/comment.entity';
       password: 'root',
       database: 'ClassAttendanceDB',
       entities: [User,Role,Teacher,Classes,Meeting,Comment],
-      synchronize: false,
+      synchronize: true,
     }),
     UsersModule,
     TeacherModule,
