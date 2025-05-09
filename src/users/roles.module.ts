@@ -12,3 +12,4 @@ import { User } from './entities/user.entity';
   exports: [RolesService], // Optional: only if you want to use it in other modules
 })
 export class RolesModule {}
+ 
