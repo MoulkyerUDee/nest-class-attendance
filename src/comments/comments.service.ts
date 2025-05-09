@@ -1,15 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CommentsService {
+  constructor(
+    @InjectRepository(Comment)
+    private commentRepository: Repository<Comment>,
+  ) {}
+  
   create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
+    return this.commentRepository.save(createCommentDto);
   }
 
   findAll() {
-    return `This action returns all comments`;
+    return this.commentRepository.find;
   }
 
   findOne(id: number) {
@@ -17,10 +24,10 @@ export class CommentsService {
   }
 
   update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
+    return this.commentRepository.update(id,updateCommentDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} comment`;
+    return this.commentRepository.delete(id);
   }
 }
