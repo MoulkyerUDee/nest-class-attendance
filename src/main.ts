@@ -11,6 +11,7 @@ async function bootstrap() {
     .setDescription('Class Attendance Service API')
     .setVersion('1.0')
     .addTag('school university attendance')
+    .addBearerAuth()
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, openApiConfig);
   SwaggerModule.setup('api', app, documentFactory);

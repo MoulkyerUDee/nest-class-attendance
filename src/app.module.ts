@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
@@ -17,6 +17,9 @@ import { CommentsModule } from './comments/comments.module';
 import { MeetingsModule } from './meetings/meetings.module';
 import { Meeting } from './meetings/entities/meeting.entity';
 import { Comment } from './comments/entities/comment.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './guards/role.guard';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -24,28 +27,38 @@ import { Comment } from './comments/entities/comment.entity';
       envFilePath: ['.dev.env'],
       load: [configuration],
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'ClassAttendanceDB',
-      entities: [User,Role,Teacher,Classes,Meeting,Comment],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        return {
+          type: 'mysql',
+          host: configService.get<string>('database.host') || 'localhost',
+          port: configService.get<number>('database.port') || 3306,
+          username: configService.get('database.username') || '',
+          password: configService.get('database.pass') || '',
+          database: 'ClassAttendanceDB',
+          entities: [User, Role, Teacher, Classes, Meeting, Comment],
+          synchronize: true,
+        }
+      },
+      inject: [ConfigService]
     }),
     UsersModule,
-    TeacherModule,
+    AuthModule,
+    RolesModule,
     ClassesModule,
-    StudentsModule,
-    RolesModule, // ✅ Add RolesModule here
     TeacherModule,
-    ClassesModule,
     StudentsModule,
     CommentsModule,
-    MeetingsModule
+    MeetingsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard
+    }
+  ],
 })
-export class AppModule {}
+export class AppModule { }

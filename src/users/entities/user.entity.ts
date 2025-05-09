@@ -19,6 +19,9 @@ export class User {
     @Column({ default: 'pending' })
     status: string;
 
+    @Column({nullable: true})
+    avatar: string;
+
     @OneToMany(() => Role, role => role.user, { cascade: true })
     roles: Role[];
 }
