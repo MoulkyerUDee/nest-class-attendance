@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './role.entity';
-;
+
 
 @Entity()
 export class User {
@@ -18,6 +18,9 @@ export class User {
 
     @Column({ default: 'pending' })
     status: string;
+
+    @Column({nullable: true})
+    avatar: string;
 
     @OneToMany(() => Role, role => role.user, { cascade: true })
     roles: Role[];
