@@ -35,7 +35,8 @@ export class RolesGuard implements CanActivate {
         );
         // 💡 We're assigning the payload to the request object here
         // so that we can access it in our route handlers
-        return requiredRoles.some((role) => payload.role == role);
+        const roles = payload.roles as (string[] | undefined)
+        return requiredRoles.some((role) => roles?.includes(role));
       } catch {
         throw new UnauthorizedException();
     }
