@@ -46,6 +46,11 @@ export class AuthService {
         }
     }
 
+    async logout(refreshToken: string) {
+        await this.refreshTokenRepo.delete({ token: refreshToken });
+    }
+
+
     async generateToken(userId) {
         const accessToken = this.jwtService.sign({ userId }, { expiresIn: '1h' });
         const refreshToken = uuidv4();
@@ -72,7 +77,6 @@ export class AuthService {
             existingToken.expiresAt = expiresAt;
             await this.refreshTokenRepo.save(existingToken);
         } else {
-            // Create a new token if one doesn't exist
             await this.refreshTokenRepo.save({
                 token,
                 expiresAt,
@@ -101,6 +105,5 @@ export class AuthService {
         await this.refreshTokenRepo.delete({ token: refreshToken });
 
         return this.generateToken(userId);
-    }
-    
+    }  
 }
