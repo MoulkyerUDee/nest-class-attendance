@@ -9,12 +9,14 @@ import { User } from './users/entities/user.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './guards/role.guard';
 import { AuthModule } from './auth/auth.module';
+import { Role } from './users/entities/role.entity';
+import { RolesModule } from './users/roles.module'; //
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.dev.env'],
-      load: [configuration]
+      load: [configuration],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -26,14 +28,15 @@ import { AuthModule } from './auth/auth.module';
           username: configService.get('database.username') ||'',
           password: configService.get('database.pass') ||'',
           database: 'ClassAttendanceDB',
-          entities: [User],
+          entities: [User, Role],
           synchronize: true,
         }
       },
       inject: [ConfigService]
     }),
     UsersModule,
-    AuthModule
+    AuthModule,
+    RolesModule
   ],
   controllers: [AppController],
   providers: [
@@ -44,4 +47,4 @@ import { AuthModule } from './auth/auth.module';
     }
   ],
 })
-export class AppModule { }
+export class AppModule {}
