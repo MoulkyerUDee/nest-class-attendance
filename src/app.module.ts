@@ -6,12 +6,6 @@ import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
-import { TeacherModule } from './teacher/teacher.module';
-import { Teacher } from './teacher/entities/teacher.entity';
-import { ClassesModule } from './classes/classes.module';
-import { StudentsModule } from './students/students.module';
-import { Student } from './students/entities/student.entity';
-import { Classes } from './classes/entities/classes.entity';
 import { Role } from './users/entities/role.entity';
 import { RolesModule } from './users/roles.module'; //
 import { TeacherModule } from './teacher/teacher.module';
@@ -34,12 +28,8 @@ import { Classes } from './classes/entities/classes.entity';
       username: 'root',
       password: 'root',
       database: 'ClassAttendanceDB',
-<<<<<<< HEAD
       entities: [User,Role,Teacher,Classes, Student],
-=======
-      entities: [User, Role, Teacher, Student, Classes],
->>>>>>> faa6c83 (Modified App Module)
-      synchronize: true,
+      synchronize: false,
     }),
     UsersModule,
     TeacherModule,
