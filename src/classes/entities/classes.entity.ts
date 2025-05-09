@@ -1,5 +1,6 @@
 import { Meeting } from 'src/meetings/entities/meeting.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Teacher } from 'src/teacher/entities/teacher.entity';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Classes {
@@ -14,4 +15,7 @@ export class Classes {
 
       @OneToMany(() => Meeting, meeting => meeting.classes)
       meetings: Meeting[];
+      
+      @ManyToOne(() => Teacher, teacher => teacher.classes)
+      teacher: Teacher [];
 }

@@ -1,5 +1,6 @@
 
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Classes } from 'src/classes/entities/classes.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Teacher {
@@ -20,7 +21,8 @@ export class Teacher {
 
     @Column({ length: 50 })
     Phone: string;
-
+@OneToMany(() => Classes, classes => classes.teacher)
+classes: Classes[];
 
 }
 
