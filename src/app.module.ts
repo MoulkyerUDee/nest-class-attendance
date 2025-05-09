@@ -16,6 +16,8 @@ import { Student } from './students/entities/student.entity';
 import { Classes } from './classes/entities/classes.entity';
 import { CommentsModule } from './comments/comments.module';
 import { MeetingsModule } from './meetings/meetings.module';
+import { Meeting } from './meetings/entities/meeting.entity';
+import { Comment } from './comments/entities/comment.entity';
 
 @Module({
   imports: [
@@ -30,7 +32,7 @@ import { MeetingsModule } from './meetings/meetings.module';
       username: 'root',
       password: 'root',
       database: 'ClassAttendanceDB',
-      entities: [User,Role,Teacher,Classes, Student],
+      entities: [User,Role,Teacher,Classes,Meeting,Comment],
       synchronize: false,
     }),
     UsersModule,
@@ -41,11 +43,8 @@ import { MeetingsModule } from './meetings/meetings.module';
     TeacherModule,
     ClassesModule,
     StudentsModule,
-<<<<<<< HEAD
-    CommentsModule
-=======
+    CommentsModule,
     MeetingsModule
->>>>>>> cca37dd (added meetings module)
   ],
   controllers: [AppController],
   providers: [AppService],
