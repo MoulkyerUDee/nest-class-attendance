@@ -1,26 +1,28 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
+
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './role.entity';
+
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
+  
+    @Column({ length: 50 })
+    username: string;
 
-    @Column({ unique: true })
-    email: string;
-    
-    @Column({length: 255})
+    @Column({ length: 255 })
     password: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     fullName: string;
 
-    @Column({default: 'pending'})
+    @Column({ default: 'pending' })
     status: string;
 
     @Column({nullable: true})
     avatar: string;
 
-    @ManyToOne(() => Role, role => role.users)
-    role: Role;
+    @OneToMany(() => Role, role => role.user, { cascade: true })
+    roles: Role;
 }

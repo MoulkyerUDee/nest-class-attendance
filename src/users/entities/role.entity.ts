@@ -1,14 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
 export class Role {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({ unique: true })
-  name: string;
+    @Column()
+    type: 'admin' | 'student' | 'teacher' | 'supervisor';
 
-  @OneToMany(() => User, user => user.role)
-  users: User[];
+    @Column({ default: 'active' })
+    status: 'active' | 'inactive' | 'disable';
+
+    @ManyToOne(() => User, user => user.roles)
+    user: User[];
 }
