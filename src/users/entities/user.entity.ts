@@ -1,3 +1,4 @@
+
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './role.entity';
 
@@ -6,7 +7,7 @@ import { Role } from './role.entity';
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
-
+  
     @Column({ length: 50 })
     username: string;
 
@@ -23,5 +24,5 @@ export class User {
     avatar: string;
 
     @OneToMany(() => Role, role => role.user, { cascade: true })
-    roles: Role[];
+    roles: Role;
 }

@@ -1,3 +1,4 @@
+
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
 
@@ -13,5 +14,5 @@ export class Role {
     status: 'active' | 'inactive' | 'disable';
 
     @ManyToOne(() => User, user => user.roles)
-    user: User;
+    user: User[];
 }
