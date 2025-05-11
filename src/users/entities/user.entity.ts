@@ -1,12 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
+import { Role } from './role.entity';
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({length: 50})
-    username: string;
+    @Column({ unique: true })
+    email: string;
     
     @Column({length: 255})
     password: string;
@@ -19,4 +20,7 @@ export class User {
 
     @Column({nullable: true})
     avatar: string;
+
+    @ManyToOne(() => Role, role => role.users)
+    role: Role;
 }

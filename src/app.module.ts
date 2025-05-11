@@ -6,6 +6,7 @@ import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
+import { Role } from './users/entities/role.entity';
 
 @Module({
   imports: [
@@ -19,8 +20,8 @@ import { User } from './users/entities/user.entity';
       port: 3306,
       username: 'root',
       password: 'root',
-      database: 'ClassAttendanceDB',
-      entities: [User],
+      database: 'classattendancedb',
+      entities: [User, Role],
       synchronize: true,
     }),
     UsersModule
