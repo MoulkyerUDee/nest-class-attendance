@@ -13,9 +13,9 @@ export class Classes {
     @Column({ })
     classSchedule: Date;
 
-      @OneToMany(() => Meeting, meeting => meeting.classes)
-      meetings: Meeting[];
-      
-      @ManyToOne(() => Teacher, teacher => teacher.classes)
-      teacher: Teacher [];
+    @OneToMany(() => Meeting, meeting => meeting.classes)
+    meetings: Meeting[];
+    
+    @ManyToOne(() => Teacher, teacher => teacher.classes)
+    teacher: Teacher [];
 }

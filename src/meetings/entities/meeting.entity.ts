@@ -16,7 +16,7 @@ export class Meeting {
     @OneToMany(() => Comment, comment => comment.meeting)
     comments: Comment[];
 
-    @ManyToOne(() => Classes, classes => classes.meetings)
+    @ManyToOne(() => Classes, classes => classes.meetings, { cascade: true })
     classes: Classes[];
 }
  

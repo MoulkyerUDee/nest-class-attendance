@@ -1,5 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, OneToOne } from 'typeorm';
 import { Role } from './role.entity';
+import { Teacher } from 'src/teacher/entities/teacher.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 ;
 
 @Entity()
@@ -24,4 +26,10 @@ export class User {
 
     @OneToMany(() => Role, role => role.user, { cascade: true })
     roles: Role[];
+
+    @OneToOne(() => Teacher, teacher => teacher.user)
+    teacher: Teacher[];
+
+    @OneToMany(() => Comment, comment => comment.user)
+    comments: Comment[];
 }
