@@ -21,12 +21,12 @@ export class Teacher {
 
     @Column({ length: 50 })
     Phone: string;
-    
+
     @OneToMany(() => Classes, classes => classes.teacher)
     classes: Classes[];
 
     @OneToOne(() => User, user => user.teacher, { cascade: true })
     @JoinColumn({ name: 'userId'})
-    user: User[];
+    user: User;
 }
 

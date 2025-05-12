@@ -10,12 +10,15 @@ export class Classes {
     @Column({ length: 50 })
     className: string;
 
-    @Column({ })
+    @Column()
     classSchedule: Date;
+
+    @Column()
+    classSection: string;
 
     @OneToMany(() => Meeting, meeting => meeting.classes)
     meetings: Meeting[];
-    
+
     @ManyToOne(() => Teacher, teacher => teacher.classes)
-    teacher: Teacher [];
+    teacher: Teacher;
 }

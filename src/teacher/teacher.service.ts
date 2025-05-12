@@ -19,7 +19,7 @@ export class TeacherService {
   }
 
   findAll() {
-    return this.teacherRepository.find;
+    return this.teacherRepository.find();
   }
 
   findOne(id: number) {
