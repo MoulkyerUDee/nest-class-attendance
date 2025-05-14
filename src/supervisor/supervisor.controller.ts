@@ -31,4 +31,9 @@ export class SupervisorController {
   remove(@Param('id') id: string) {
     return this.supervisorService.remove(+id);
   }
+
+  @Get('overview')
+  getOverview() {
+    return this.supervisorService.getOverview();
+  }
 }
