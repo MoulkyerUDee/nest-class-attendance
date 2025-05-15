@@ -37,4 +37,13 @@ export class SupervisorController {
     return this.supervisorService.getOverview();
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.Supervisor, Role.Admin)
+  @Get('attendance-summary')
+  getAttendanceSummary(
+    @Query('from') from: string,
+    @Query('to') to: string,
+  ) {
+    return this.supervisorService.getAttendanceSummary(from, to);
+  }
 }
