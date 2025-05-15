@@ -12,6 +12,7 @@ import { TeacherModule } from './teacher/teacher.module';
 import { Teacher } from './teacher/entities/teacher.entity';
 import { ClassesModule } from './classes/classes.module';
 import { Classes } from './classes/entities/classes.entity';
+import { SupervisorModule } from './supervisor/supervisor.module';
 import { CommentsModule } from './comments/comments.module';
 import { MeetingsModule } from './meetings/meetings.module';
 import { Meeting } from './meetings/entities/meeting.entity';
@@ -47,6 +48,7 @@ import { SupervisorModule } from './supervisor/supervisor.module';
     AuthModule,
     RolesModule,
     ClassesModule,
+    RolesModule, // ✅ Add RolesModule here
     TeacherModule,
     CommentsModule,
     MeetingsModule,
