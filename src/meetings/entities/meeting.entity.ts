@@ -19,4 +19,3 @@ export class Meeting {
     @ManyToOne(() => Classes, classes => classes.meetings, { cascade: true })
     classes: Classes[];
 }
- 
