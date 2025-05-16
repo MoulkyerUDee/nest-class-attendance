@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { SupervisorService } from './supervisor.service';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
@@ -46,3 +46,4 @@ export class SupervisorController {
     return this.supervisorService.getAttendanceSummary(from, to);
   }
 }
+ 
