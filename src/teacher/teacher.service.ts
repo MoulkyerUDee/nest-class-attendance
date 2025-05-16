@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
 import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +7,9 @@ import { Repository } from 'typeorm';
 import { Classes } from 'src/classes/entities/classes.entity';
 import { CreateTeacherClassDto } from './dto/create-teacher-class.dto';
 import { UpdateTeacherClassDto } from './dto/update-teacher-class.dto';
+import { CommentsService } from 'src/comments/comments.service';
+import { CreateAttendanceCommentDto } from './dto/create-attendance-comment.dto';
+import { Meeting } from 'src/meetings/entities/meeting.entity';
 
 @Injectable()
 export class TeacherService {
@@ -15,6 +18,9 @@ export class TeacherService {
     private teacherRepository: Repository<Teacher>,
     @InjectRepository(Classes)
     private classesRepository: Repository<Classes>,
+    @InjectRepository(Meeting)
+    private meetingRepository: Repository<Meeting>,
+    private commentsService: CommentsService
   ) {}
 
   create(createTeacherDto: CreateTeacherDto) {
@@ -112,5 +118,96 @@ export class TeacherService {
     }
 
     return this.classesRepository.remove(classEntity);
+  }
+
+
+  async getMeetings(teacherId: number, classId: number) {
+    await this.findOne(teacherId);
+
+    const classEntity = await this.classesRepository.findOne({
+      where: { id: classId, teacher: { id: teacherId } },
+      relations: ['meetings']
+    });
+
+    if (!classEntity) {
+      throw new NotFoundException(`Class with ID ${classId} not found for teacher with ID ${teacherId}`);
+    }
+
+    return classEntity.meetings;
+  }
+
+  async getMeeting(teacherId: number, classId: number, meetingId: number) {
+    await this.findOne(teacherId);
+
+    const classEntity = await this.classesRepository.findOne({
+      where: { id: classId, teacher: { id: teacherId } },
+      relations: ['meetings']
+    });
+
+    if (!classEntity) {
+      throw new NotFoundException(`Class with ID ${classId} not found for teacher with ID ${teacherId}`);
+    }
+
+    const meeting = await this.meetingRepository.findOne({
+      where: { id: meetingId, classes: { id: classId } },
+      relations: ['comments', 'comments.user']
+    });
+
+    if (!meeting) {
+      throw new NotFoundException(`Meeting with ID ${meetingId} not found for class with ID ${classId}`);
+    }
+
+    return meeting;
+  }
+
+  async createAttendanceComment(teacherId: number, createAttendanceCommentDto: CreateAttendanceCommentDto) {
+    await this.findOne(teacherId);
+
+    const meeting = await this.meetingRepository.findOne({
+      where: { id: createAttendanceCommentDto.meetingId },
+      relations: ['classes', 'classes.teacher']
+    });
+
+    if (!meeting) {
+      throw new NotFoundException(`Meeting with ID ${createAttendanceCommentDto.meetingId} not found`);
+    }
+
+    const belongsToTeacher = meeting.classes.some(
+      classEntity => classEntity.teacher && classEntity.teacher.id === teacherId
+    );
+
+    if (!belongsToTeacher) {
+      throw new UnauthorizedException(`Teacher with ID ${teacherId} is not authorized to add comments to meeting with ID ${createAttendanceCommentDto.meetingId}`);
+    }
+
+    return this.commentsService.create({
+      content: createAttendanceCommentDto.content,
+      meetingId: createAttendanceCommentDto.meetingId,
+      userId: createAttendanceCommentDto.studentId,
+      createdAt: createAttendanceCommentDto.createdAt || new Date()
+    });
+  }
+
+  async getAttendanceComments(teacherId: number, meetingId: number) {
+    await this.findOne(teacherId);
+
+    const meeting = await this.meetingRepository.findOne({
+      where: { id: meetingId },
+      relations: ['classes', 'classes.teacher', 'comments', 'comments.user']
+    });
+
+    if (!meeting) {
+      throw new NotFoundException(`Meeting with ID ${meetingId} not found`);
+    }
+
+    const belongsToTeacher = meeting.classes.some(
+      classEntity => classEntity.teacher && classEntity.teacher.id === teacherId
+    );
+
+    if (!belongsToTeacher) {
+      throw new UnauthorizedException(`Teacher with ID ${teacherId} is not authorized to view comments for meeting with ID ${meetingId}`);
+    }
+
+    return meeting.comments;
   }
 }

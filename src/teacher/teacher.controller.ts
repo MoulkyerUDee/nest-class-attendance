@@ -7,6 +7,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
 import { CreateTeacherClassDto } from './dto/create-teacher-class.dto';
 import { UpdateTeacherClassDto } from './dto/update-teacher-class.dto';
+import { CreateAttendanceCommentDto } from './dto/create-attendance-comment.dto';
 
 @ApiTags('teachers')
 @Controller('teacher')
@@ -115,5 +116,58 @@ export class TeacherController {
     @Param('classId') classId: string
   ) {
     return this.teacherService.removeClass(+id, +classId);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
+  @Get(':id/classes/:classId/meetings')
+  @ApiOperation({ summary: 'Get all meetings for a class' })
+  @ApiParam({ name: 'id', description: 'Teacher ID' })
+  @ApiParam({ name: 'classId', description: 'Class ID' })
+  getMeetings(
+    @Param('id') id: string,
+    @Param('classId') classId: string
+  ) {
+    return this.teacherService.getMeetings(+id, +classId);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
+  @Get(':id/classes/:classId/meetings/:meetingId')
+  @ApiOperation({ summary: 'Get a specific meeting for a class' })
+  @ApiParam({ name: 'id', description: 'Teacher ID' })
+  @ApiParam({ name: 'classId', description: 'Class ID' })
+  @ApiParam({ name: 'meetingId', description: 'Meeting ID' })
+  getMeeting(
+    @Param('id') id: string,
+    @Param('classId') classId: string,
+    @Param('meetingId') meetingId: string
+  ) {
+    return this.teacherService.getMeeting(+id, +classId, +meetingId);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
+  @Post(':id/attendance-comments')
+  @ApiOperation({ summary: 'Create a new attendance comment' })
+  @ApiParam({ name: 'id', description: 'Teacher ID' })
+  createAttendanceComment(
+    @Param('id') id: string,
+    @Body() createAttendanceCommentDto: CreateAttendanceCommentDto
+  ) {
+    return this.teacherService.createAttendanceComment(+id, createAttendanceCommentDto);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
+  @Get(':id/meetings/:meetingId/attendance-comments')
+  @ApiOperation({ summary: 'Get all attendance comments for a meeting' })
+  @ApiParam({ name: 'id', description: 'Teacher ID' })
+  @ApiParam({ name: 'meetingId', description: 'Meeting ID' })
+  getAttendanceComments(
+    @Param('id') id: string,
+    @Param('meetingId') meetingId: string
+  ) {
+    return this.teacherService.getAttendanceComments(+id, +meetingId);
   }
 }
