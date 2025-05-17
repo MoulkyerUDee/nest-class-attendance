@@ -19,7 +19,7 @@ export class Attendance {
   @Column()
   date: Date;
 
-  @ManyToOne(() => Meeting, meeting => meeting.attendance, { cascade: true })
+  @ManyToOne(() => Meeting, meeting => meeting.attendances, { cascade: true })
   meeting: Meeting;
 
   //@ManyToOne(() => User, user => user.attendance, { cascade: true })

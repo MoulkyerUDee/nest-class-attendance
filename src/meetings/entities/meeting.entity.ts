@@ -19,7 +19,7 @@ export class Meeting {
     status: MeetingStatus;
 
     @OneToMany(() => Attendance, attendance => attendance.meeting)
-    attendance?: Attendance[];
+    attendances: Attendance[];
 
     @OneToMany(() => Comment, comment => comment.meeting)
     comments?: Comment[];

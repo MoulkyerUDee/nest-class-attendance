@@ -9,6 +9,7 @@ export const mockMeetings: Meeting[] = [
     content: 'Algebra Basics',
     createdAt: new Date('2023-10-01T09:00:00'),
     status: MeetingStatus.COMPLETED,
+    attendances: [],
     comments: [],
     classes: { id: 1 } as any
   },
@@ -17,6 +18,7 @@ export const mockMeetings: Meeting[] = [
     content: 'Calculus Intro',
     createdAt: new Date('2023-10-08T09:00:00'),
     status: MeetingStatus.CANCELLED,
+    attendances: [],
     comments: [],
     classes: { id: 1 } as any
   },
@@ -25,6 +27,7 @@ export const mockMeetings: Meeting[] = [
     content: 'Trigonometry',
     createdAt: new Date('2023-10-15T09:00:00'),
     status: MeetingStatus.COMPLETED,
+    attendances: [],
     comments: [],
     classes: { id: 1 } as any
   },
@@ -35,6 +38,7 @@ export const mockMeetings: Meeting[] = [
     content: 'World War II',
     createdAt: new Date('2023-10-02T10:00:00'),
     status: MeetingStatus.ONGOING,
+    attendances: [],
     comments: [],
     classes: { id: 2 } as any
   },
@@ -43,6 +47,7 @@ export const mockMeetings: Meeting[] = [
     content: 'Ancient Civilizations',
     createdAt: new Date('2023-10-09T10:00:00'),
     status: MeetingStatus.ONGOING,
+    attendances: [],
     comments: [],
     classes: { id: 2 } as any
   },
@@ -53,6 +58,7 @@ export const mockMeetings: Meeting[] = [
     content: 'Chemistry Lab',
     createdAt: new Date('2023-10-03T11:00:00'),
     status: MeetingStatus.ONGOING,
+    attendances: [],
     comments: [],
     classes: { id: 3 } as any
   }
