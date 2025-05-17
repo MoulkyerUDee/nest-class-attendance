@@ -42,4 +42,9 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+
+  @Post(':id/assign-role/:roleId')
+  assignRole(@Param('id') id: string, @Param('roleId') roleId: string) {
+    return this.usersService.assignRole(+id, +roleId);
+  }
 }
