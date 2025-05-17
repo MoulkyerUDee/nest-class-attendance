@@ -33,7 +33,7 @@ export class User {
     teacher?: Teacher[];
 
     @OneToOne(() => Supervisor, supervisor => supervisor.user)
-    supervisor: Supervisor;
+    supervisor?: Supervisor;
 
     @OneToMany(() => Comment, comment => comment.user)
     comments?: Comment[];

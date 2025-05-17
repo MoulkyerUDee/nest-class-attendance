@@ -25,6 +25,7 @@ import { AttendanceModule } from './attendance/attendance.module';
 import { Attendance } from './attendance/entities/attendance.entity';
 import { StudentModule } from './student/student.module';
 import { AttendanceRecord } from './users/entities/attendance_record.entity';
+import { Supervisor } from './supervisor/entities/supervisor.entity';
 
 @Module({
   imports: [
@@ -43,7 +44,7 @@ import { AttendanceRecord } from './users/entities/attendance_record.entity';
           username: configService.get('database.username') || '',
           password: configService.get('database.pass') || '',
           database: 'ClassAttendanceDB',
-          entities: [User, Role, AttendanceRecord, Teacher, Student, Class, Meeting, Attendance, Comment],
+          entities: [User, Role, AttendanceRecord, Supervisor, Teacher, Student, Class, Meeting, Attendance, Comment],
           synchronize: true,
         }
       },
