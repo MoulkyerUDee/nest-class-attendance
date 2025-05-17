@@ -1,9 +1,8 @@
-import { Classes } from "src/classes/entities/classes.entity";
+import { Class } from "src/classes/entities/classes.entity";
 import { Comment } from "src/comments/entities/comment.entity";
 import { Attendance } from "src/attendance/entities/attendance.entity";
 import { MeetingStatus } from "src/enums/meeting-status.enum";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "src/users/entities/user.entity";
+import { Column, Entity, OneToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity()
@@ -26,6 +25,6 @@ export class Meeting {
     @OneToMany(() => Comment, comment => comment.meeting)
     comments?: Comment[];
 
-    @ManyToOne(() => Classes, classes => classes.meetings, { cascade: true })
-    classes: Classes[];
+    @ManyToOne(() => Class, class => class.meetings, { cascade: true })
+    classes: Class[];
 }

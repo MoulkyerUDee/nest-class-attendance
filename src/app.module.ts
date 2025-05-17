@@ -11,7 +11,7 @@ import { RolesModule } from './users/roles.module'; //
 import { TeacherModule } from './teacher/teacher.module';
 import { Teacher } from './teacher/entities/teacher.entity';
 import { ClassesModule } from './classes/classes.module';
-import { Classes } from './classes/entities/classes.entity';
+import { Class } from './classes/entities/classes.entity';
 import { CommentsModule } from './comments/comments.module';
 import { MeetingsModule } from './meetings/meetings.module';
 import { Meeting } from './meetings/entities/meeting.entity';
@@ -39,7 +39,7 @@ import { Attendance } from './attendance/entities/attendance.entity';
           username: configService.get('database.username') || '',
           password: configService.get('database.pass') || '',
           database: 'ClassAttendanceDB',
-          entities: [User, Role, Teacher, Classes, Meeting, Attendance, Comment],
+          entities: [User, Role, Teacher, Class, Meeting, Attendance, Comment],
           synchronize: false,
         }
       },
@@ -49,7 +49,7 @@ import { Attendance } from './attendance/entities/attendance.entity';
     AuthModule,
     RolesModule,
     ClassesModule,
-    RolesModule, // ✅ Add RolesModule here
+    RolesModule, 
     TeacherModule,
     CommentsModule,
     MeetingsModule,
