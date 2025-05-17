@@ -9,7 +9,7 @@ import { Attendance } from 'src/attendance/entities/attendance.entity';
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
-
+  
     @Column({ length: 50 })
     username: string;
 

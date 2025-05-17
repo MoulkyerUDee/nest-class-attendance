@@ -24,6 +24,7 @@ import { SupervisorModule } from './supervisor/supervisor.module';
 import { AttendanceModule } from './attendance/attendance.module';
 import { Attendance } from './attendance/entities/attendance.entity';
 import { StudentModule } from './student/student.module';
+import { AttendanceRecord } from './users/entities/attendance_record.entity';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { StudentModule } from './student/student.module';
       envFilePath: ['.dev.env'],
       load: [configuration],
     }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
@@ -41,12 +43,13 @@ import { StudentModule } from './student/student.module';
           username: configService.get('database.username') || '',
           password: configService.get('database.pass') || '',
           database: 'ClassAttendanceDB',
-          entities: [User, Role, Teacher, Student, Class, Meeting, Attendance, Comment],
-          synchronize: false,
+          entities: [User, Role, AttendanceRecord, Teacher, Student, Class, Meeting, Attendance, Comment],
+          synchronize: true,
         }
       },
       inject: [ConfigService]
     }),
+
     UsersModule,
     AuthModule,
     RolesModule,
@@ -64,8 +67,8 @@ import { StudentModule } from './student/student.module';
     AppService,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard
-    }
+      useClass: RolesGuard,
+    },
   ],
 })
 export class AppModule { }
