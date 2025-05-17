@@ -2,21 +2,19 @@
 //import { Repository } from 'typeorm';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { mockUsers } from 'src/mocks/users.mock';
-import { mockComments } from 'src/mocks/attendances.mock';
+import { mockAttendances } from 'src/mocks/attendances.mock';
 import { mockMeetings } from 'src/mocks/meetings.mock';
 import { mockClasses } from 'src/mocks/classes.mock';
+import { AttendanceStatus } from 'src/enums/attendance-status.enum';
 
 
 @Injectable()
 export class SupervisorService {
   private readonly users = mockUsers; // Use mock data
-  private readonly attendances = mockComments;
+  private readonly attendances = mockAttendances;
   private readonly meetings = mockMeetings;
   private readonly classes = mockClasses;
-  //constructor(
-  //  @InjectRepository(User)
-  //  private userRepo: Repository<User>,
-  //) {}
+
 
   async findAll() {
     const allUsers = this.users.filter(user => 
@@ -92,7 +90,7 @@ getOverview() {
   const startDate = from ? new Date(from) : new Date('2000-01-01');
   const endDate = to ? new Date(to) : new Date('2100-01-01');
 
-  const filteredComments = mockComments.filter(comment => {
+  const filteredAttendances = mockAttendances.filter(comment => {
     const date = comment.createdAt;
     return date >= startDate && date <= endDate;
   });
@@ -106,10 +104,10 @@ getOverview() {
     total: number;
   }>();
 
-  for (const comment of filteredComments) {
-    const dateStr = comment.createdAt.toISOString().split('T')[0];
+  for (const attendance of filteredAttendances) {
+    const dateStr = attendance.createdAt.toISOString().split('T')[0];
 
-    const meeting = mockMeetings.find(m => m.id === comment.meeting[0].id);
+    const meeting = mockMeetings.find(m => m.id === attendance.meeting[0].id);
     if (!meeting) continue;
 
     const classInfo = mockClasses.find(c => c.id === meeting.class[0].id);
@@ -130,8 +128,8 @@ getOverview() {
 
     const summary = summaryMap.get(key)!;
 
-    if (comment.content === 'present') summary.present++;
-    else if (comment.content === 'absent') summary.absent++;
+    if (attendance.status === AttendanceStatus.PRESENT) summary.present++;
+    else if (attendance.status === AttendanceStatus.ABSENT) summary.absent++;
 
     summary.total++;
   }
