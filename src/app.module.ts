@@ -21,6 +21,7 @@ import { RolesGuard } from './guards/role.guard';
 import { AuthModule } from './auth/auth.module';
 import { SupervisorModule } from './supervisor/supervisor.module';
 import { AttendanceModule } from './attendance/attendance.module';
+import { Attendance } from './attendance/entities/attendance.entity';
 
 @Module({
   imports: [
@@ -38,7 +39,7 @@ import { AttendanceModule } from './attendance/attendance.module';
           username: configService.get('database.username') || '',
           password: configService.get('database.pass') || '',
           database: 'ClassAttendanceDB',
-          entities: [User, Role, Teacher, Classes, Meeting, Comment],
+          entities: [User, Role, Teacher, Classes, Meeting, Attendance, Comment],
           synchronize: false,
         }
       },
