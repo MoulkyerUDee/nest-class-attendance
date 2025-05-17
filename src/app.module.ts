@@ -22,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
 import { SupervisorModule } from './supervisor/supervisor.module';
 import { AttendanceModule } from './attendance/attendance.module';
 import { Attendance } from './attendance/entities/attendance.entity';
+import { StudentModule } from './student/student.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { Attendance } from './attendance/entities/attendance.entity';
     MeetingsModule,
     SupervisorModule,
     AttendanceModule,
+    StudentModule,
   ],
   controllers: [AppController],
   providers: [
