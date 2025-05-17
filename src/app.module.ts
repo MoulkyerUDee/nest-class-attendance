@@ -20,6 +20,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './guards/role.guard';
 import { AuthModule } from './auth/auth.module';
 import { SupervisorModule } from './supervisor/supervisor.module';
+import { AttendanceModule } from './attendance/attendance.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { SupervisorModule } from './supervisor/supervisor.module';
     CommentsModule,
     MeetingsModule,
     SupervisorModule,
+    AttendanceModule,
   ],
   controllers: [AppController],
   providers: [
