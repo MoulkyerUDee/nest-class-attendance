@@ -1,4 +1,5 @@
 import { Meeting } from "src/meetings/entities/meeting.entity";
+import { MeetingStatus } from "src/enums/meeting-status.enum";
 
 
 export const mockMeetings: Meeting[] = [
@@ -7,6 +8,7 @@ export const mockMeetings: Meeting[] = [
     id: 1,
     content: 'Algebra Basics',
     createdAt: new Date('2023-10-01T09:00:00'),
+    status: MeetingStatus.COMPLETED,
     comments: [],
     classes: { id: 1 } as any
   },
@@ -14,6 +16,7 @@ export const mockMeetings: Meeting[] = [
     id: 2,
     content: 'Calculus Intro',
     createdAt: new Date('2023-10-08T09:00:00'),
+    status: MeetingStatus.CANCELLED,
     comments: [],
     classes: { id: 1 } as any
   },
@@ -21,6 +24,7 @@ export const mockMeetings: Meeting[] = [
     id: 3,
     content: 'Trigonometry',
     createdAt: new Date('2023-10-15T09:00:00'),
+    status: MeetingStatus.COMPLETED,
     comments: [],
     classes: { id: 1 } as any
   },
@@ -30,6 +34,7 @@ export const mockMeetings: Meeting[] = [
     id: 4,
     content: 'World War II',
     createdAt: new Date('2023-10-02T10:00:00'),
+    status: MeetingStatus.ONGOING,
     comments: [],
     classes: { id: 2 } as any
   },
@@ -37,6 +42,7 @@ export const mockMeetings: Meeting[] = [
     id: 5,
     content: 'Ancient Civilizations',
     createdAt: new Date('2023-10-09T10:00:00'),
+    status: MeetingStatus.ONGOING,
     comments: [],
     classes: { id: 2 } as any
   },
@@ -46,6 +52,7 @@ export const mockMeetings: Meeting[] = [
     id: 6,
     content: 'Chemistry Lab',
     createdAt: new Date('2023-10-03T11:00:00'),
+    status: MeetingStatus.ONGOING,
     comments: [],
     classes: { id: 3 } as any
   }
