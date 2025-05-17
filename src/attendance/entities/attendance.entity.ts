@@ -24,11 +24,11 @@ export class Attendance {
   meeting: Meeting;
 
   @ManyToOne(() => User, user => user.attendances)
-  user: User;
+  user?: User;
 
   @ManyToOne(() => Student)
   student: Student;
 
-  @Column({ nullable: true }) // Only editable by teachers
-  notes: string;              // comments
+  @Column()                    // Only editable by teachers
+  notes?: string;              // comments
 }
