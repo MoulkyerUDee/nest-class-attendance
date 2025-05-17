@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { ClassesService } from './classes.service';
+import { ClassService } from './class.service';
 import { CreateClassesDto } from './dto/create-classes.dto';
 import { UpdateClassesDto } from './dto/update-classes.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -7,8 +7,8 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
 
 @Controller('classes')
-export class ClassesController {
-    constructor(private readonly classesService: ClassesService) {}
+export class ClassController {
+    constructor(private readonly classesService: ClassService) {}
 
 @ApiBearerAuth()
 @Roles(Role.Admin, Role.Supervisor, Role.Teacher)

@@ -112,7 +112,7 @@ getOverview() {
     const meeting = mockMeetings.find(m => m.id === comment.meeting[0].id);
     if (!meeting) continue;
 
-    const classInfo = mockClasses.find(c => c.id === meeting.classes[0].id);
+    const classInfo = mockClasses.find(c => c.id === meeting.class[0].id);
     if (!classInfo) continue;
 
     const key = `${dateStr}-${classInfo.id}`;

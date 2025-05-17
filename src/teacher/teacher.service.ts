@@ -4,7 +4,7 @@ import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Teacher } from './entities/teacher.entity';
 import { Repository } from 'typeorm';
-import { Classes } from 'src/classes/entities/classes.entity';
+import { Class } from 'src/class/entities/class.entity';
 import { CreateTeacherClassDto } from './dto/create-teacher-class.dto';
 import { UpdateTeacherClassDto } from './dto/update-teacher-class.dto';
 import { CommentsService } from 'src/comments/comments.service';
@@ -16,8 +16,8 @@ export class TeacherService {
   constructor(
     @InjectRepository(Teacher)
     private teacherRepository: Repository<Teacher>,
-    @InjectRepository(Classes)
-    private classesRepository: Repository<Classes>,
+    @InjectRepository(Class)
+    private classesRepository: Repository<Class>,
     @InjectRepository(Meeting)
     private meetingRepository: Repository<Meeting>,
     private commentsService: CommentsService
@@ -149,7 +149,7 @@ export class TeacherService {
     }
 
     const meeting = await this.meetingRepository.findOne({
-      where: { id: meetingId, classes: { id: classId } },
+      where: { id: meetingId, class: { id: classId } },
       relations: ['comments', 'comments.user']
     });
 
@@ -172,9 +172,7 @@ export class TeacherService {
       throw new NotFoundException(`Meeting with ID ${createAttendanceCommentDto.meetingId} not found`);
     }
 
-    const belongsToTeacher = meeting.classes.some(
-      classEntity => classEntity.teacher && classEntity.teacher.id === teacherId
-    );
+    const belongsToTeacher = meeting.class.teacher && meeting.class.teacher.id === teacherId;
 
     if (!belongsToTeacher) {
       throw new UnauthorizedException(`Teacher with ID ${teacherId} is not authorized to add comments to meeting with ID ${createAttendanceCommentDto.meetingId}`);
@@ -200,9 +198,7 @@ export class TeacherService {
       throw new NotFoundException(`Meeting with ID ${meetingId} not found`);
     }
 
-    const belongsToTeacher = meeting.classes.some(
-      classEntity => classEntity.teacher && classEntity.teacher.id === teacherId
-    );
+    const belongsToTeacher = meeting.class.teacher && meeting.class.teacher.id === teacherId;
 
     if (!belongsToTeacher) {
       throw new UnauthorizedException(`Teacher with ID ${teacherId} is not authorized to view comments for meeting with ID ${meetingId}`);

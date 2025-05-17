@@ -1,7 +1,7 @@
-import { Classes } from "src/classes/entities/classes.entity";
+import { Class } from "src/class/entities/class.entity";
 
 
-export const mockClasses: Classes[] = [
+export const mockClasses: Class[] = [
   {
     id: 1,
     className: 'Math 101',

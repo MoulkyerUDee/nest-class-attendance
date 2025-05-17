@@ -11,7 +11,7 @@ export const mockMeetings: Meeting[] = [
     status: MeetingStatus.COMPLETED,
     attendances: [],
     comments: [],
-    classes: { id: 1 } as any
+    class: { id: 1 } as any
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ export const mockMeetings: Meeting[] = [
     status: MeetingStatus.CANCELLED,
     attendances: [],
     comments: [],
-    classes: { id: 1 } as any
+    class: { id: 1 } as any
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ export const mockMeetings: Meeting[] = [
     status: MeetingStatus.COMPLETED,
     attendances: [],
     comments: [],
-    classes: { id: 1 } as any
+    class: { id: 1 } as any
   },
   
   // History 201 Meetings (2 meetings)
@@ -40,7 +40,7 @@ export const mockMeetings: Meeting[] = [
     status: MeetingStatus.ONGOING,
     attendances: [],
     comments: [],
-    classes: { id: 2 } as any
+    class: { id: 2 } as any
   },
   {
     id: 5,
@@ -49,7 +49,7 @@ export const mockMeetings: Meeting[] = [
     status: MeetingStatus.ONGOING,
     attendances: [],
     comments: [],
-    classes: { id: 2 } as any
+    class: { id: 2 } as any
   },
   
   // Science 301 Meetings (1 meeting)
@@ -60,6 +60,6 @@ export const mockMeetings: Meeting[] = [
     status: MeetingStatus.ONGOING,
     attendances: [],
     comments: [],
-    classes: { id: 3 } as any
+    class: { id: 3 } as any
   }
 ];

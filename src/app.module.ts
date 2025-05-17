@@ -10,8 +10,8 @@ import { Role } from './users/entities/role.entity';
 import { RolesModule } from './users/roles.module'; //
 import { TeacherModule } from './teacher/teacher.module';
 import { Teacher } from './teacher/entities/teacher.entity';
-import { ClassesModule } from './classes/classes.module';
-import { Class } from './classes/entities/classes.entity';
+import { ClassModule } from './class/class.module';
+import { Class } from './class/entities/class.entity';
 import { CommentsModule } from './comments/comments.module';
 import { MeetingsModule } from './meetings/meetings.module';
 import { Meeting } from './meetings/entities/meeting.entity';
@@ -48,7 +48,7 @@ import { Attendance } from './attendance/entities/attendance.entity';
     UsersModule,
     AuthModule,
     RolesModule,
-    ClassesModule,
+    ClassModule,
     RolesModule, 
     TeacherModule,
     CommentsModule,

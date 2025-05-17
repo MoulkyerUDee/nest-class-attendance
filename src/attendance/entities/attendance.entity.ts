@@ -25,6 +25,9 @@ export class Attendance {
   @ManyToOne(() => User, user => user.attendances)
   user: User;
 
+  //@ManyToOne(() => Student)
+  //student: Student;
+
   @Column({ nullable: true }) // Only editable by teachers
   notes: string;              // comments
 }

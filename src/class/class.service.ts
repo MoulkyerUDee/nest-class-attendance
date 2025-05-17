@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Classes } from './entities/classes.entity';
+import { Class } from './entities/class.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateClassesDto } from './dto/create-classes.dto';
@@ -7,10 +7,10 @@ import { UpdateClassesDto } from './dto/update-classes.dto';
 import { Teacher } from 'src/teacher/entities/teacher.entity';
 
 @Injectable()
-export class ClassesService {
+export class ClassService {
     constructor(
-        @InjectRepository(Classes)
-        private classesRepository: Repository<Classes>,
+        @InjectRepository(Class)
+        private classesRepository: Repository<Class>,
         @InjectRepository(Teacher)
         private teacherRepository: Repository<Teacher>,
       ) {}

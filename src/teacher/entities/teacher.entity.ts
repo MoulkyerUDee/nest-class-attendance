@@ -1,4 +1,4 @@
-import { Classes } from 'src/classes/entities/classes.entity';
+import { Class } from 'src/class/entities/class.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -22,8 +22,8 @@ export class Teacher {
     @Column({ length: 50 })
     Phone?: string;
 
-    @OneToMany(() => Classes, classes => classes.teacher)
-    classes: Classes[];
+    @OneToMany(() => Class, classes => classes.teacher)
+    classes: Class[];
 
     @OneToOne(() => User, user => user.teacher, { cascade: true })
     @JoinColumn({ name: 'userId'})
