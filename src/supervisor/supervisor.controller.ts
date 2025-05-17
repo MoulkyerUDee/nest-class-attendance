@@ -1,6 +1,5 @@
 import { Controller, Get, Param, Delete, Query } from '@nestjs/common';
 import { SupervisorService } from './supervisor.service';
-//import { ApiBearerAuth} from '@nestjs/swagger';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
@@ -10,16 +9,16 @@ import { Role } from 'src/enums/role.enum';
 export class SupervisorController {
   constructor(private readonly supervisorService: SupervisorService) {}
   
-  //@ApiBearerAuth()
-  //@Roles(Role.Admin, Role.Supervisor)
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.Supervisor)
   @Get()
   @ApiOperation({ summary: 'Find all users with supervisor role' })
   findAll() {
     return this.supervisorService.findAll();
   }
 
-  //@ApiBearerAuth()
-  //@Roles(Role.Admin, Role.Supervisor)
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.Supervisor)
   @Get(':id')
   @ApiOperation({ summary: 'Find a supervisor by ID' })
   findOne(@Param('id') id: string) {
