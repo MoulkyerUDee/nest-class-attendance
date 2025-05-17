@@ -6,11 +6,12 @@ import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
+import { Role } from './users/entities/role.entity';
+import { AttendanceRecord } from './users/entities/attendance_record.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './guards/role.guard';
 import { AuthModule } from './auth/auth.module';
-import { Role } from './users/entities/role.entity';
-import { RolesModule } from './users/roles.module'; //
+import { RolesModule } from './users/roles.module';
 
 @Module({
   imports: [
@@ -21,31 +22,30 @@ import { RolesModule } from './users/roles.module'; //
 
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => {
-        return {
-          type: 'mysql',
-          host: configService.get<string>('database.host') || 'localhost',
-          port: configService.get<number>('database.port') || 3306,
-          username: configService.get('database.username') ||'',
-          password: configService.get('database.pass') ||'',
-          database: 'ClassAttendanceDB',
-          entities: [User, Role],
-          synchronize: true,
-        }
-      },
-      inject: [ConfigService]
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('database.host') || 'localhost',
+        port: configService.get<number>('database.port') || 3306,
+        username: configService.get('database.username') || '',
+        password: configService.get('database.pass') || '',
+        database: 'ClassAttendanceDB',
+        entities: [User, Role, AttendanceRecord], // add AttendanceRecord here
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
+
     UsersModule,
     AuthModule,
-    RolesModule
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard
-    }
+      useClass: RolesGuard,
+    },
   ],
 })
 export class AppModule {}
