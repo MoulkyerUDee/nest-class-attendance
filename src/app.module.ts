@@ -45,7 +45,7 @@ import { Supervisor } from './supervisor/entities/supervisor.entity';
           password: configService.get('database.pass') || '',
           database: 'ClassAttendanceDB',
           entities: [User, Role, AttendanceRecord, Supervisor, Teacher, Student, Class, Meeting, Attendance, Comment],
-          synchronize: true,
+          synchronize: false,
         }
       },
       inject: [ConfigService]

@@ -61,14 +61,21 @@ getOverview() {
     const totalTeachers = this.users?.filter(
       user => user.roles?.some(role => role.type === 'teacher')
     )?.length || 0;
+    
     const totalClasses = this.classes?.length || 0;
 
-    //const todayAttendance = this.attendances?.filter(a => a.date?.startsWith(today)) || [];
+    const todayAttendance = this.attendances?.filter(
+      attendance => attendance.createdAt?.toISOString().startsWith(today)) || [];
 
-    //const present = todayAttendance.filter(a => a.status === 'present')?.length || 0;
-    //const absent = todayAttendance.filter(a => a.status === 'absent')?.length || 0;
-    //const total = present + absent;
-    //const percentage = total ? ((present / total) * 100).toFixed(2) + '%' : '0%';
+    const present = todayAttendance.filter(a => a.status === 'present')?.length || 0;
+    const late = todayAttendance.filter(a => a.status === 'late')?.length || 0;
+    const excused = todayAttendance.filter(a => a.status === 'excused')?.length || 0;
+    const absent = todayAttendance.filter(a => a.status === 'absent')?.length || 0;
+    
+    // Calculate percentage (combining present and late as present)
+    const totalAttended = present + late;
+    const percentage_present = totalStudents > 0 
+      ? ((totalAttended / totalStudents) * 100).toFixed(2) + '%' : '0%';
 
     const activeSessions = this.meetings?.filter(m => m.status === 'ongoing')?.length || 0;
 
@@ -76,11 +83,13 @@ getOverview() {
       totalStudents,
       totalTeachers,
       totalClasses,
-      //attendanceToday: {
-      //  present,
-      //  absent,
-      //  percentage,
-      //},
+      attendanceToday: {
+        present,
+        late,
+        excused,
+        absent,
+        percentage_present,
+      },
       activeSessions,
     };
   }
