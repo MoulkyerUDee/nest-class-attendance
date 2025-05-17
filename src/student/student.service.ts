@@ -1,26 +1,85 @@
-import { Injectable } from '@nestjs/common';
-import { CreateStudentDto } from './dto/create-student.dto';
+import { Injectable, NotFoundException, BadRequestException  } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Student } from './entities/student.entity';
 import { UpdateStudentDto } from './dto/update-student.dto';
+
 
 @Injectable()
 export class StudentService {
-  create(createStudentDto: CreateStudentDto) {
-    return 'This action adds a new student';
+  constructor(
+    @InjectRepository(Student)
+    private studentRepository: Repository<Student>,
+  ) {}
+
+  // CRUD Methods
+  
+  async findAll(): Promise<Student[]> {
+    return await this.studentRepository.find({
+      relations: ['classes', 'attendances'],
+    });
   }
 
-  findAll() {
-    return `This action returns all student`;
+  async findOne(studentCode: number): Promise<Student> {
+    const student = await this.studentRepository.findOne({
+      where: { studentCode },
+      relations: ['classes', 'attendances.class'],
+    });
+
+    if (!student) {
+      throw new NotFoundException(`Student profile ${studentCode} not found`);
+    }
+    return student;
+  }
+  
+  async updateProfile(
+    studentCode: number,
+    updateData: UpdateStudentDto,
+  ): Promise<Student> {
+    const student = await this.studentRepository.findOneBy({ studentCode });
+  
+    if (!student) {
+      throw new NotFoundException(`Student ${studentCode} not found`);
+    }
+    
+    // Only allow updates to these fields
+    const updatableFields = {
+      firstName: updateData.firstName,
+      lastName: updateData.lastName,
+      email: updateData.email,
+      yearLevel: updateData.yearLevel,
+      academicProgram: updateData.academicProgram,
+      isActive: updateData.isActive,
+    };
+
+    Object.assign(student, updatableFields);
+    return await this.studentRepository.save(student);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  
+  remove(studentCode: number) {
+    return `This action removes a #${studentCode} student`;
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+
+  // Analytics Method
+
+  async getAttendanceStats(studentId: number) {
+    return this.studentRepository.findOne({
+      where: { id: studentId },
+      relations: ['attendances', 'classes'], // Load relationships
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+  async getAcademicProgress(studentCode: number) {
+    const student = await this.findOne(studentCode);
+    
+    return {
+      currentYear: student.yearLevel,
+      program: student.academicProgram,
+      enrollmentStatus: student.isActive ? 'Active' : 'Inactive',
+    };
   }
+
+  
 }

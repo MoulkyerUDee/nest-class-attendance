@@ -8,7 +8,7 @@ export class Student {
   id: number;
 
   @Column({ unique: true })
-  studentCode: string;  // University ID
+  studentCode: number;  // University ID
 
   @Column()
   firstName: string;
@@ -16,17 +16,17 @@ export class Student {
   @Column()
   lastName: string;
 
+  @Column({ unique: true })
+  email: string;
+
   @Column()
-  program: string;
+  academicProgram: string;
 
   @Column()
   yearLevel: number;
 
   @Column({ default: true })
-  isEnrolled: boolean;
-
-  @Column({ unique: true })
-  email: string;
+  isActive: boolean;
 
   // Relationships
   @OneToMany(() => Attendance, attendance => attendance.student)
