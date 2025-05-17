@@ -7,6 +7,7 @@ export enum AttendanceStatus {
   ABSENT = 'absent',
   LATE = 'late',
   EXCUSED = 'excused',
+  PENDING = 'pending',
 }
 
 @Entity()
@@ -17,7 +18,7 @@ export class Attendance {
   @Column({
     type: 'enum',
     enum: AttendanceStatus,
-    default: AttendanceStatus.ABSENT,
+    default: AttendanceStatus.PENDING,
   })
   status: AttendanceStatus;
 
