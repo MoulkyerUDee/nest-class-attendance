@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 //import { InjectRepository } from '@nestjs/typeorm';
 //import { Repository } from 'typeorm';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { mockUsers } from 'src/mocks/users.mock';
 import { mockComments } from 'src/mocks/attendances.mock';
 import { mockMeetings } from 'src/mocks/meetings.mock';
@@ -10,7 +10,9 @@ import { mockClasses } from 'src/mocks/classes.mock';
 @Injectable()
 export class SupervisorService {
   private readonly users = mockUsers; // Use mock data
-
+  private readonly attendances = mockComments;
+  private readonly meetings = mockMeetings;
+  private readonly classes = mockClasses;
   //constructor(
   //  @InjectRepository(User)
   //  private userRepo: Repository<User>,
@@ -36,20 +38,55 @@ export class SupervisorService {
     return `This action removes a #${id} supervisor`;
   }
 
-  getOverview() {
-    // Mock data
+//  getOverview() {
+//    // Mock data
+//    return {
+//      totalStudents: 200,
+//      totalTeachers: 20,
+//      totalClasses: 10,
+//      attendanceToday: {
+//        present: 180,
+//        absent: 20,
+//        percentage: '90%',
+//      },
+//      activeSessions: 3,
+//    };
+//  }
+
+getOverview() {
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+    const totalStudents = this.users?.filter(
+      user => user.roles?.some(role => role.type === 'student')
+    )?.length || 0;
+    
+    const totalTeachers = this.users?.filter(
+      user => user.roles?.some(role => role.type === 'teacher')
+    )?.length || 0;
+    const totalClasses = this.classes?.length || 0;
+
+    //const todayAttendance = this.attendances?.filter(a => a.date?.startsWith(today)) || [];
+
+    //const present = todayAttendance.filter(a => a.status === 'present')?.length || 0;
+    //const absent = todayAttendance.filter(a => a.status === 'absent')?.length || 0;
+    //const total = present + absent;
+    //const percentage = total ? ((present / total) * 100).toFixed(2) + '%' : '0%';
+
+    const activeSessions = this.meetings?.filter(m => m.status === 'ongoing')?.length || 0;
+
     return {
-      totalStudents: 200,
-      totalTeachers: 20,
-      totalClasses: 10,
-      attendanceToday: {
-        present: 180,
-        absent: 20,
-        percentage: '90%',
-      },
-      activeSessions: 3,
+      totalStudents,
+      totalTeachers,
+      totalClasses,
+      //attendanceToday: {
+      //  present,
+      //  absent,
+      //  percentage,
+      //},
+      activeSessions,
     };
   }
+
 
  getAttendanceSummary(from?: string, to?: string) {
   const startDate = from ? new Date(from) : new Date('2000-01-01');
