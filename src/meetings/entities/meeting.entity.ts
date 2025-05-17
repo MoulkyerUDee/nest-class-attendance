@@ -1,8 +1,10 @@
 import { Classes } from "src/classes/entities/classes.entity";
 import { Comment } from "src/comments/entities/comment.entity";
+import { Attendance } from "src/attendance/entities/attendance.entity";
 import { MeetingStatus } from "src/enums/meeting-status.enum";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Attendance } from "src/attendance/entities/attendance.entity";
+import { User } from "src/users/entities/user.entity";
+
 
 @Entity()
 export class Meeting {
