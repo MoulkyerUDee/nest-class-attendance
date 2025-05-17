@@ -1,14 +1,8 @@
+import { AttendanceStatus } from "src/enums/attendance-status.enum";
 import { Meeting } from "src/meetings/entities/meeting.entity";
 import { User } from "src/users/entities/user.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
-export enum AttendanceStatus {
-  PRESENT = 'present',
-  ABSENT = 'absent',
-  LATE = 'late',
-  EXCUSED = 'excused',
-  PENDING = 'pending',
-}
 
 @Entity()
 export class Attendance {
