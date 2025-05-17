@@ -2,6 +2,7 @@ import { Classes } from "src/classes/entities/classes.entity";
 import { Comment } from "src/comments/entities/comment.entity";
 import { MeetingStatus } from "src/enums/meeting-status.enum";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Attendance } from "./attendance.entity";
 
 @Entity()
 export class Meeting {
@@ -16,6 +17,9 @@ export class Meeting {
 
     @Column({type: 'enum', enum: MeetingStatus, default: MeetingStatus.UPCOMING,})
     status: MeetingStatus;
+
+    @OneToMany(() => Attendance, attendance => attendance.meeting)
+    attendance?: Attendance[];
 
     @OneToMany(() => Comment, comment => comment.meeting)
     comments?: Comment[];
