@@ -16,7 +16,7 @@ export class Class {
     @Column()
     classSection: string;
 
-    @OneToMany(() => Meeting, meeting => meeting.classes)
+    @OneToMany(() => Meeting, meeting => meeting.class)
     meetings: Meeting[];
 
     @ManyToOne(() => Teacher, teacher => teacher.classes)
