@@ -85,7 +85,6 @@ getOverview() {
     };
   }
 
-
  getAttendanceSummary(from?: string, to?: string) {
   const startDate = from ? new Date(from) : new Date('2000-01-01');
   const endDate = to ? new Date(to) : new Date('2100-01-01');
