@@ -44,7 +44,7 @@ import { AttendanceRecord } from './users/entities/attendance_record.entity';
           password: configService.get('database.pass') || '',
           database: 'ClassAttendanceDB',
           entities: [User, Role, AttendanceRecord, Teacher, Student, Class, Meeting, Attendance, Comment],
-          synchronize: false,
+          synchronize: true,
         }
       },
       inject: [ConfigService]

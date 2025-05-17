@@ -26,7 +26,6 @@ export class UsersService {
       userId: user.id,
       status: roleStatus || 'active',
     };
-
     await this.rolesService.create(createRoleDto);
 
     return this.findOne(user.id);
