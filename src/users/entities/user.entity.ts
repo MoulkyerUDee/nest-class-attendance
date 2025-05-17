@@ -34,12 +34,9 @@ export class User {
     @OneToMany(() => Comment, comment => comment.user)
     comments?: Comment[];
 
-    @ManyToOne(() => Role, role => role.user)
-    role: Role;
-
     @ManyToOne(() => Classes, classes => classes.teacher, { nullable: true })
     class?: Classes;  // Only for students/teachers
 
     @OneToMany(() => Attendance, attendance => attendance.user)
-    attendances: Attendance[];
+    attendances?: Attendance[];
 }

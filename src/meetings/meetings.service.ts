@@ -20,7 +20,7 @@ export class MeetingsService {
     return this.meetingRepository.find;
   }
 
-  findOne(id: number, p0: { relations: string[]; }) {
+  findOne(id: number, p0?: { relations: string[]; }) {
     return this.meetingRepository.findBy({id});
   }
 

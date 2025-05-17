@@ -28,7 +28,7 @@ export class MeetingsController {
   @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.meetingsService.findOne(+id);
+    return this.meetingsService.findOne(+id, { relations: [] });
   }
 
   @ApiBearerAuth()
