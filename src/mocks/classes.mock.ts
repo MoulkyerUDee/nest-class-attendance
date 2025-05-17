@@ -11,7 +11,8 @@ export const mockClasses: Class[] = [
     teacher: {
         id: 1, Lname: 'Dr. Smith',
         classes: []
-    }
+    },
+    students: []
   },
   {
     id: 2,
@@ -22,7 +23,8 @@ export const mockClasses: Class[] = [
     teacher: {
         id: 2, Lname: 'Prof. Johnson',
         classes: []
-    }
+    },
+    students: []
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ export const mockClasses: Class[] = [
     teacher: {
         id: 3, Lname: 'Dr. Brown',
         classes: []
-    }
+    },
+    students: []
   }
 ];

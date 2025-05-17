@@ -18,8 +18,8 @@ export class ClassMemberGuard implements CanActivate {
     if (!meeting) throw new NotFoundException('Meeting not found');
 
     // Check if user is a student/teacher in the class
-    return meeting.classes.students.some(student => student.id === user.id) || 
-           meeting.classes.teacher.id === user.id;
+    return meeting.class.students.some(student => student.id === user.id) || 
+           meeting.class.teacher.id === user.id;
   }
 }
 */

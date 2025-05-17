@@ -1,6 +1,7 @@
 import { AttendanceStatus } from "src/enums/attendance-status.enum";
 import { Meeting } from "src/meetings/entities/meeting.entity";
 import { User } from "src/users/entities/user.entity";
+import { Student} from "src/student/entities/student.entity"
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
@@ -25,8 +26,8 @@ export class Attendance {
   @ManyToOne(() => User, user => user.attendances)
   user: User;
 
-  //@ManyToOne(() => Student)
-  //student: Student;
+  @ManyToOne(() => Student)
+  student: Student;
 
   @Column({ nullable: true }) // Only editable by teachers
   notes: string;              // comments

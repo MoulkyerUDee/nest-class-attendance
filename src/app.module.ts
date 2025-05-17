@@ -10,6 +10,7 @@ import { Role } from './users/entities/role.entity';
 import { RolesModule } from './users/roles.module'; //
 import { TeacherModule } from './teacher/teacher.module';
 import { Teacher } from './teacher/entities/teacher.entity';
+import { Student } from './student/entities/student.entity';
 import { ClassModule } from './class/class.module';
 import { Class } from './class/entities/class.entity';
 import { CommentsModule } from './comments/comments.module';
@@ -40,7 +41,7 @@ import { StudentModule } from './student/student.module';
           username: configService.get('database.username') || '',
           password: configService.get('database.pass') || '',
           database: 'ClassAttendanceDB',
-          entities: [User, Role, Teacher, Class, Meeting, Attendance, Comment],
+          entities: [User, Role, Teacher, Student, Class, Meeting, Attendance, Comment],
           synchronize: false,
         }
       },
