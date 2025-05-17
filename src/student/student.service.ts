@@ -64,20 +64,32 @@ export class StudentService {
 
   // Analytics Method
 
-  async getAttendanceStats(studentId: number) {
+  async getAttendanceStats(studentCode: number) {
     return this.studentRepository.findOne({
-      where: { id: studentId },
-      relations: ['attendances', 'classes'], // Load relationships
+      where: { studentCode },
+      relations: {
+        attendances: true,
+        classes: true
+      },
+      select: ['studentCode', 'firstName', 'lastName'] 
     });
   }
 
   async getAcademicProgress(studentCode: number) {
-    const student = await this.findOne(studentCode);
+    const student = await this.studentRepository.findOne({ 
+      where: { studentCode },
+      select: ['yearLevel', 'academicProgram', 'isActive'] // Optimize query
+    });
     
+    if (!student) {
+      throw new NotFoundException(`Student ${studentCode} not found`);
+    }
+
     return {
       currentYear: student.yearLevel,
       program: student.academicProgram,
       enrollmentStatus: student.isActive ? 'Active' : 'Inactive',
+      lastUpdated: new Date().toISOString()
     };
   }
 
