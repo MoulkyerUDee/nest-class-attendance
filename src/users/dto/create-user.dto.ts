@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsOptional, IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEnum, IsOptional, IsEmail, IsNotEmpty, IsString, MinLength, IsNumber } from 'class-validator';
 
 export class CreateUserDto {
     @ApiProperty()
@@ -29,4 +29,23 @@ export class CreateUserDto {
     @IsEmail()
     email: string;
 
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    academicProgram?: string;
+
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsNumber()
+    yearLevel?: number;
+
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    phone?: string;
+
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    department?: string;
 }

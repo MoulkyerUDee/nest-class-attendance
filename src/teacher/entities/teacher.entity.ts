@@ -13,14 +13,11 @@ export class Teacher {
     @Column({ length: 255 })
     Lname: string;
 
-    @Column({ length: 10 })
-    Age?: string;
-
-    @Column({ length: 100 })
-    Address?: string;
-
     @Column({ length: 50 })
     Phone?: string;
+
+    @Column({ length: 50 })
+    email?: string;
 
     @OneToMany(() => Class, classes => classes.teacher)
     classes: Class[];
