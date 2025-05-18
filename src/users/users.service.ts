@@ -35,57 +35,66 @@ export class UsersService {
       email: createUserDto.email
     });
 
-    // Then create the role
-    const role = await this.roleRepo.create({
+    // Create the role using RolesService
+    await this.rolesService.create({
       type: createUserDto.role,
+      userId: user.id,
       status: createUserDto.roleStatus || 'active',
-      user: user
     });
-    await this.roleRepo.save(role);
 
     // Based on role type, create corresponding entity
     switch (createUserDto.role) {
-      case 'teacher':
-        const [teacherFirstName, ...teacherLastName] = createUserDto.fullName.split(' ');
-        const teacher = await this.teacherRepo.create({
-          Fname: teacherFirstName,
-          Lname: teacherLastName.join(' ') || '',
+      case 'teacher': {
+        const [firstName, ...lastNameParts] = createUserDto.fullName.split(' ');
+        const teacher = this.teacherRepo.create({
+          Fname: firstName,
+          Lname: lastNameParts.join(' ') || '',
           Phone: createUserDto.phone,
           email: createUserDto.email,
+          classes: [],
+          comments: [],
           user: user
         });
         await this.teacherRepo.save(teacher);
         break;
-
-      case 'student':
-        const [studentFirstName, ...studentLastName] = createUserDto.fullName.split(' ');
-        const student = await this.studentRepo.create({
-          firstName: studentFirstName,
-          lastName: studentLastName.join(' ') || '',
+      }
+      case 'student': {
+        const [firstName, ...lastNameParts] = createUserDto.fullName.split(' ');
+        const student = this.studentRepo.create({
+          studentCode: parseInt(`${new Date().getFullYear()}${Math.floor(Math.random() * 10000)}`),
+          firstName: firstName,
+          lastName: lastNameParts.join(' ') || '',
           email: createUserDto.email,
-          isActive: true,
           academicProgram: createUserDto.academicProgram || 'Default Program',
           yearLevel: createUserDto.yearLevel || 1,
-          studentCode: parseInt(`${new Date().getFullYear()}${Math.floor(Math.random() * 10000)}`)
+          isActive: true,
+          classes: [],
+          attendances: []
         });
         await this.studentRepo.save(student);
         break;
-
-      case 'supervisor':
-        const [supervisorFirstName, ...supervisorLastName] = createUserDto.fullName.split(' ');
-        const supervisor = await this.supervisorRepo.create({
-          firstName: supervisorFirstName,  
-          lastName: supervisorLastName.join(' ') || '',
+      }
+      case 'supervisor': {
+        const [firstName, ...lastNameParts] = createUserDto.fullName.split(' ');
+        const supervisor = this.supervisorRepo.create({
+          firstName: firstName,
+          lastName: lastNameParts.join(' ') || '',
           email: createUserDto.email,
           phone: createUserDto.phone,
           department: createUserDto.department,
-          employeeId: `SUP-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`
+          employeeId: `SUP-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`,
+          user: user
         });
         await this.supervisorRepo.save(supervisor);
         break;
+      }
     }
 
-    return user;
+    // Return user with roles
+    return this.userRepo.findOne({
+      where: { id: user.id },
+      relations: ['roles']
+    });
   }
 
   findAll() {
