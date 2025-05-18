@@ -46,6 +46,13 @@ export class SupervisorController {
   ) {
     return this.supervisorService.getAttendanceSummary(from, to);
   }
+  @Get('Role.teachers')
+@ApiOperation({ summary: 'Get all teachers for supervisor' })
+@Get('teacher')
+getAllTeachers() {
+  return this.supervisorService.getAllTeachers();
+}
+
 }
 
 

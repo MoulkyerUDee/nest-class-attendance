@@ -130,5 +130,27 @@ getOverview() {
 
   return Array.from(summaryMap.values());
 }
+getAllTeachers() {
+  const teacherUsers = this.users.filter(user =>
+    user.roles.some(role => role.type === 'teacher')
+  );
+
+  const teacherSummaries = teacherUsers.map(teacher => {
+    // Get classes assigned to this teacher
+    const classesHandled = this.classes.filter(c => c.teacher.id === teacher.id);
+    
+    // Get meetings conducted by this teacher
+    const meetingsConducted = this.meetings.filter(m => m.teacher.id === teacher.id);
+
+    return {
+      id: teacher.id,
+      name: teacher.username,
+      classesHandled: classesHandled.length,
+      meetingsConducted: meetingsConducted.length,
+    };
+  });
+
+  return teacherSummaries;
+}
 
 }
