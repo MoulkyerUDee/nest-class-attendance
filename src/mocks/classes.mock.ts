@@ -9,8 +9,10 @@ export const mockClasses: Class[] = [
     classSection: 'A',
     meetings: [],
     teacher: {
-        id: 1, Lname: 'Dr. Smith',
-        classes: []
+        id: 1,
+        Lname: 'Dr. Smith',
+        classes: [],
+        comments: []
     },
     students: []
   },
@@ -21,8 +23,10 @@ export const mockClasses: Class[] = [
     classSection: 'B',
     meetings: [],
     teacher: {
-        id: 2, Lname: 'Prof. Johnson',
-        classes: []
+        id: 2,
+        Lname: 'Prof. Johnson',
+        classes: [],
+        comments: []
     },
     students: []
   },
@@ -33,8 +37,10 @@ export const mockClasses: Class[] = [
     classSection: 'C',
     meetings: [],
     teacher: {
-        id: 3, Lname: 'Dr. Brown',
-        classes: []
+        id: 3,
+        Lname: 'Dr. Brown',
+        classes: [],
+        comments: []
     },
     students: []
   },
@@ -48,6 +54,7 @@ export const mockClasses: Class[] = [
       id: 4,
       Lname: 'Ms. Carter',
       classes: [],
+      comments: []
     },
     students: [],
   },
@@ -61,6 +68,7 @@ export const mockClasses: Class[] = [
       id: 5,
       Lname: 'Mr. Lopez',
       classes: [],
+      comments: []
     },
     students: [],
   },
@@ -74,6 +82,7 @@ export const mockClasses: Class[] = [
       id: 6,
       Lname: 'Dr. Ali',
       classes: [],
+      comments: []
     },
     students: [],
   },
@@ -87,6 +96,7 @@ export const mockClasses: Class[] = [
       id: 7,
       Lname: 'Coach Reyes',
       classes: [],
+      comments: []
     },
     students: [],
   },
@@ -100,8 +110,8 @@ export const mockClasses: Class[] = [
       id: 8,
       Lname: 'Prof. Santiago',
       classes: [],
+      comments: []
     },
     students: [],
-  },
-   
+  }
 ];

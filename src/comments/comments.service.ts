@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Comment } from './entities/comment.entity';
 import { Meeting } from 'src/meetings/entities/meeting.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Teacher } from 'src/teacher/entities/teacher.entity';
 
 @Injectable()
 export class CommentsService {
@@ -14,12 +14,12 @@ export class CommentsService {
     private commentRepository: Repository<Comment>,
     @InjectRepository(Meeting)
     private meetingRepository: Repository<Meeting>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
+    @InjectRepository(Teacher)
+    private teacherRepository: Repository<Teacher>,
   ) {}
 
   async create(createCommentDto: CreateCommentDto) {
-    const { meetingId, userId, ...commentData } = createCommentDto;
+    const { meetingId, teacherId, ...commentData } = createCommentDto;
 
     const meeting = await this.meetingRepository.findOne({
       where: { id: meetingId }
@@ -29,25 +29,25 @@ export class CommentsService {
       throw new NotFoundException(`Meeting with ID ${meetingId} not found`);
     }
 
-    let user: User | undefined = undefined;
-    if (userId) {
-      const foundUser = await this.userRepository.findOne({
-        where: { id: userId }
+    let teacher: Teacher | undefined = undefined;
+    if (teacherId) {
+      const foundTeacher = await this.teacherRepository.findOne({
+        where: { id: teacherId }
       });
 
-      if (!foundUser) {
-        throw new NotFoundException(`User with ID ${userId} not found`);
+      if (!foundTeacher) {
+        throw new NotFoundException(`Teacher with ID ${teacherId} not found`);
       }
 
-      user = foundUser;
+      teacher = foundTeacher;
     }
 
     const comment = new Comment();
     comment.content = commentData.content;
     comment.createdAt = commentData.createdAt || new Date();
-    comment.meeting = [meeting];
-    if (user) {
-      comment.user = [user];
+    comment.meeting = meeting;
+    if (teacher) {
+      comment.teacher = teacher;
     }
 
     return this.commentRepository.save(comment);
@@ -55,14 +55,14 @@ export class CommentsService {
 
   findAll() {
     return this.commentRepository.find({
-      relations: ['meeting', 'user']
+      relations: ['meeting', 'teacher']
     });
   }
 
   async findOne(id: number) {
     const comment = await this.commentRepository.findOne({
       where: { id },
-      relations: ['meeting', 'user']
+      relations: ['meeting', 'teacher']
     });
 
     if (!comment) {

@@ -2,7 +2,6 @@ import { Column, Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, ManyToOne 
 import { Role } from './role.entity';
 import { Teacher } from 'src/teacher/entities/teacher.entity';
 import { Supervisor } from 'src/supervisor/entities/supervisor.entity';
-import { Comment } from 'src/comments/entities/comment.entity';
 import { Class } from 'src/class/entities/class.entity';
 import { Attendance } from 'src/attendance/entities/attendance.entity';
 
@@ -34,9 +33,6 @@ export class User {
 
     @OneToOne(() => Supervisor, supervisor => supervisor.user)
     supervisor?: Supervisor;
-
-    @OneToMany(() => Comment, comment => comment.user)
-    comments?: Comment[];
 
     @ManyToOne(() => Class, classes => classes.teacher, { nullable: true })
     class?: Class;  // Only for students/teachers
