@@ -87,4 +87,40 @@ export const mockAttendances: Attendance[] = [
     student: { id: 7, studentCode: 202105678 } as any, // 2021 enrollment, 05678
     notes: 'Facilitated class discussion'
   }
+  // History 201 - Meeting 2
+{
+  id: 11,
+  status: AttendanceStatus.PRESENT,
+  createdAt: new Date('2023-10-09T10:00:00'),
+  meeting: { id: 5 } as any,
+  student: { id: 6, studentCode: 202312345 } as any,
+  notes: 'Participated in group activity'
+},
+{
+  id: 12,
+  status: AttendanceStatus.ABSENT,
+  createdAt: new Date('2023-10-09T10:00:00'),
+  meeting: { id: 5 } as any,
+  student: { id: 3, studentCode: 202210345 } as any,
+  notes: 'No notice given'
+},
+
+// Science 301 - Meeting 1 (id 6)
+{
+  id: 13,
+  status: AttendanceStatus.PRESENT,
+  createdAt: new Date('2023-10-03T11:00:00'),
+  meeting: { id: 6 } as any,
+  student: { id: 4, studentCode: 202311234 } as any,
+  notes: 'Well-prepared for experiment'
+},
+{
+  id: 14,
+  status: AttendanceStatus.LATE,
+  createdAt: new Date('2023-10-03T11:05:00'),
+  meeting: { id: 6 } as any,
+  student: { id: 2, studentCode: 202310002 } as any,
+  notes: 'Traffic delays'
+}
+
 ];
