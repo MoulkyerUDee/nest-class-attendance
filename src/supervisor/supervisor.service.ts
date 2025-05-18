@@ -139,8 +139,11 @@ getAllTeachers() {
     // Get classes assigned to this teacher
     const classesHandled = this.classes.filter(c => c.teacher.id === teacher.id);
     
-    // Get meetings conducted by this teacher
-    const meetingsConducted = this.meetings.filter(m => m.teacher.id === teacher.id);
+    // Get meetings conducted by this teacher by first getting their classes
+    const meetingsConducted = this.meetings.filter(m => {
+      const meetingClass = this.classes.find(c => c.id === m.class.id);
+      return meetingClass?.teacher.id === teacher.id;
+    });
 
     return {
       id: teacher.id,

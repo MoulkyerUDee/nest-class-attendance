@@ -37,7 +37,7 @@ export const mockClasses: Class[] = [
         classes: []
     },
     students: []
-  }
+  },
   {
     id: 4,
     className: 'English 101',

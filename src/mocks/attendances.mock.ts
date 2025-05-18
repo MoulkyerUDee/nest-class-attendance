@@ -86,7 +86,7 @@ export const mockAttendances: Attendance[] = [
     meeting: { id: 3 } as any,
     student: { id: 7, studentCode: 202105678 } as any, // 2021 enrollment, 05678
     notes: 'Facilitated class discussion'
-  }
+  },
   // History 201 - Meeting 2
 {
   id: 11,
