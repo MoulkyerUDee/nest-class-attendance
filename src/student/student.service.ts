@@ -56,9 +56,12 @@ export class StudentService {
     return await this.studentRepository.save(student);
   }
 
-  
-  remove(studentCode: number) {
-    return `This action removes a #${studentCode} student`;
+    async remove(studentCode: number): Promise<Student> {
+    const student = await this.studentRepository.findOneBy({ studentCode });
+    if (!student) {
+      throw new NotFoundException(`Student ${studentCode} not found`);
+    }
+    return await this.studentRepository.remove(student);
   }
 
 

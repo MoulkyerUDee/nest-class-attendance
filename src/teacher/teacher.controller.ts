@@ -2,9 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TeacherService } from './teacher.service';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
 import { UpdateTeacherDto } from './dto/update-teacher.dto';
+import { CreateMeetingDto } from './dto/create-meeting.dto';
+import { UpdateMeetingDto } from './dto/update-meeting.dto';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
+import { MeetingStatus } from 'src/enums/meeting-status.enum';
 import { CreateTeacherClassDto } from './dto/create-teacher-class.dto';
 import { UpdateTeacherClassDto } from './dto/update-teacher-class.dto';
 import { CreateAttendanceCommentDto } from './dto/create-attendance-comment.dto';
@@ -120,42 +123,55 @@ export class TeacherController {
 
   @ApiBearerAuth()
   @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
+  @Post(':id/classes/:classId/meetings')
+  @ApiOperation({ summary: 'Create a new meeting for a class' })
+  @ApiParam({ name: 'id', description: 'Teacher ID' })
+  @ApiParam({ name: 'classId', description: 'Class ID' })
+  createMeeting(
+    @Param('id') teacherId: string,
+    @Param('classId') classId: string,
+    @Body() createMeetingDto: CreateMeetingDto
+  ) {
+    return this.teacherService.createMeeting(+teacherId, createMeetingDto);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
   @Get(':id/classes/:classId/meetings')
   @ApiOperation({ summary: 'Get all meetings for a class' })
   @ApiParam({ name: 'id', description: 'Teacher ID' })
   @ApiParam({ name: 'classId', description: 'Class ID' })
-  getMeetings(
-    @Param('id') id: string,
+  getClassMeetings(
+    @Param('id') teacherId: string,
     @Param('classId') classId: string
   ) {
-    return this.teacherService.getMeetings(+id, +classId);
+    return this.teacherService.getClassMeetings(+teacherId, +classId);
   }
-
   @ApiBearerAuth()
   @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
   @Get(':id/classes/:classId/meetings/:meetingId')
-  @ApiOperation({ summary: 'Get a specific meeting for a class' })
+  @ApiOperation({ summary: 'Get a specific meeting with comments' })
   @ApiParam({ name: 'id', description: 'Teacher ID' })
   @ApiParam({ name: 'classId', description: 'Class ID' })
   @ApiParam({ name: 'meetingId', description: 'Meeting ID' })
-  getMeeting(
-    @Param('id') id: string,
+  getMeetingWithComments(
+    @Param('id') teacherId: string,
     @Param('classId') classId: string,
     @Param('meetingId') meetingId: string
   ) {
-    return this.teacherService.getMeeting(+id, +classId, +meetingId);
-  }
-
-  @ApiBearerAuth()
+    return this.teacherService.getMeetingWithComments(+teacherId, +classId, +meetingId);
+  }  @ApiBearerAuth()
   @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
-  @Post(':id/attendance-comments')
+  @Post(':id/meetings/:meetingId/attendance-comments')
   @ApiOperation({ summary: 'Create a new attendance comment' })
   @ApiParam({ name: 'id', description: 'Teacher ID' })
+  @ApiParam({ name: 'meetingId', description: 'Meeting ID' })
   createAttendanceComment(
     @Param('id') id: string,
+    @Param('meetingId') meetingId: string,
     @Body() createAttendanceCommentDto: CreateAttendanceCommentDto
   ) {
-    return this.teacherService.createAttendanceComment(+id, createAttendanceCommentDto);
+    return this.teacherService.createAttendanceComment(+id, +meetingId, createAttendanceCommentDto);
   }
 
   @ApiBearerAuth()
@@ -169,5 +185,52 @@ export class TeacherController {
     @Param('meetingId') meetingId: string
   ) {
     return this.teacherService.getAttendanceComments(+id, +meetingId);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
+  @Patch(':id/classes/:classId/meetings/:meetingId')
+  @ApiOperation({ summary: 'Update a meeting' })
+  @ApiParam({ name: 'id', description: 'Teacher ID' })
+  @ApiParam({ name: 'classId', description: 'Class ID' })
+  @ApiParam({ name: 'meetingId', description: 'Meeting ID' })
+  updateMeeting(
+    @Param('id') teacherId: string,
+    @Param('classId') classId: string,
+    @Param('meetingId') meetingId: string,
+    @Body() updateMeetingDto: UpdateMeetingDto
+  ) {
+    return this.teacherService.updateMeeting(+teacherId, +classId, +meetingId, updateMeetingDto);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
+  @Delete(':id/classes/:classId/meetings/:meetingId')
+  @ApiOperation({ summary: 'Delete a meeting' })
+  @ApiParam({ name: 'id', description: 'Teacher ID' })
+  @ApiParam({ name: 'classId', description: 'Class ID' })
+  @ApiParam({ name: 'meetingId', description: 'Meeting ID' })
+  deleteMeeting(
+    @Param('id') teacherId: string,
+    @Param('classId') classId: string,
+    @Param('meetingId') meetingId: string
+  ) {
+    return this.teacherService.deleteMeeting(+teacherId, +classId, +meetingId);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.Supervisor, Role.Teacher)
+  @Patch(':id/classes/:classId/meetings/:meetingId/status')
+  @ApiOperation({ summary: 'Change meeting status' })
+  @ApiParam({ name: 'id', description: 'Teacher ID' })
+  @ApiParam({ name: 'classId', description: 'Class ID' })
+  @ApiParam({ name: 'meetingId', description: 'Meeting ID' })
+  changeMeetingStatus(
+    @Param('id') teacherId: string,
+    @Param('classId') classId: string,
+    @Param('meetingId') meetingId: string,
+    @Body('status') status: MeetingStatus
+  ) {
+    return this.teacherService.changeMeetingStatus(+teacherId, +classId, +meetingId, status);
   }
 }

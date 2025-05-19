@@ -11,10 +11,10 @@ export class CreateCommentDto {
     @IsNumber()
     meetingId: number;
 
-    @ApiProperty({ description: 'User ID of the commenter (optional, can be determined from auth token)' })
+    @ApiProperty({ description: 'Teacher ID of the commenter (optional, can be determined from auth token)' })
     @IsNumber()
     @IsOptional()
-    userId?: number;
+    teacherId?: number;
 
     @ApiProperty({ description: 'Creation date (optional, defaults to current date)' })
     @IsOptional()

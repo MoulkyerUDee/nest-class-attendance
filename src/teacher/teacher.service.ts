@@ -10,6 +10,9 @@ import { UpdateTeacherClassDto } from './dto/update-teacher-class.dto';
 import { CommentsService } from 'src/comments/comments.service';
 import { CreateAttendanceCommentDto } from './dto/create-attendance-comment.dto';
 import { Meeting } from 'src/meetings/entities/meeting.entity';
+import { CreateMeetingDto } from './dto/create-meeting.dto';
+import { UpdateMeetingDto } from './dto/update-meeting.dto';
+import { MeetingStatus } from 'src/enums/meeting-status.enum';
 
 @Injectable()
 export class TeacherService {
@@ -135,8 +138,7 @@ export class TeacherService {
 
     return classEntity.meetings;
   }
-
-  async getMeeting(teacherId: number, classId: number, meetingId: number) {
+  async getMeetingWithComments(teacherId: number, classId: number, meetingId: number) {
     await this.findOne(teacherId);
 
     const classEntity = await this.classesRepository.findOne({
@@ -150,7 +152,7 @@ export class TeacherService {
 
     const meeting = await this.meetingRepository.findOne({
       where: { id: meetingId, class: { id: classId } },
-      relations: ['comments', 'comments.user']
+      relations: ['comments', 'comments.teacher']
     });
 
     if (!meeting) {
@@ -158,30 +160,28 @@ export class TeacherService {
     }
 
     return meeting;
-  }
+  }  async createAttendanceComment(teacherId: number, meetingId: number, createAttendanceCommentDto: CreateAttendanceCommentDto) {
+    const teacher = await this.findOne(teacherId);
 
-  async createAttendanceComment(teacherId: number, createAttendanceCommentDto: CreateAttendanceCommentDto) {
-    await this.findOne(teacherId);
-
+    // Verify the meeting exists and belongs to teacher's class
     const meeting = await this.meetingRepository.findOne({
-      where: { id: createAttendanceCommentDto.meetingId },
-      relations: ['classes', 'classes.teacher']
+      where: { 
+        id: meetingId,
+        class: { 
+          teacher: { id: teacherId }
+        }
+      },
+      relations: ['class', 'class.teacher']
     });
 
     if (!meeting) {
-      throw new NotFoundException(`Meeting with ID ${createAttendanceCommentDto.meetingId} not found`);
-    }
-
-    const belongsToTeacher = meeting.class.teacher && meeting.class.teacher.id === teacherId;
-
-    if (!belongsToTeacher) {
-      throw new UnauthorizedException(`Teacher with ID ${teacherId} is not authorized to add comments to meeting with ID ${createAttendanceCommentDto.meetingId}`);
+      throw new NotFoundException(`Meeting with ID ${meetingId} not found or unauthorized`);
     }
 
     return this.commentsService.create({
       content: createAttendanceCommentDto.content,
-      meetingId: createAttendanceCommentDto.meetingId,
-      userId: createAttendanceCommentDto.studentId,
+      meetingId: meetingId,
+      teacherId: teacherId,
       createdAt: createAttendanceCommentDto.createdAt || new Date()
     });
   }
@@ -191,7 +191,7 @@ export class TeacherService {
 
     const meeting = await this.meetingRepository.findOne({
       where: { id: meetingId },
-      relations: ['classes', 'classes.teacher', 'comments', 'comments.user']
+      relations: ['class', 'class.teacher', 'comments', 'comments.teacher']
     });
 
     if (!meeting) {
@@ -205,5 +205,144 @@ export class TeacherService {
     }
 
     return meeting.comments;
+  }
+
+  async createMeeting(teacherId: number, createMeetingDto: CreateMeetingDto) {
+    // First check if this teacher exists
+    const teacher = await this.teacherRepository.findOne({
+      where: { id: teacherId },
+      relations: ['classes']
+    });
+
+    if (!teacher) {
+      throw new NotFoundException('Teacher not found');
+    }
+
+    // Check if the class belongs to this teacher
+    const teacherClass = await this.classesRepository.findOne({
+      where: { 
+        id: createMeetingDto.classId,
+        teacher: { id: teacherId }
+      }
+    });
+
+    if (!teacherClass) {
+      throw new UnauthorizedException('This class does not belong to the specified teacher');
+    }
+
+    // Create and save the meeting
+    const meeting = this.meetingRepository.create({
+      content: createMeetingDto.content,
+      status: createMeetingDto.status,
+      createdAt: new Date(),
+      class: teacherClass
+    });
+
+    return this.meetingRepository.save(meeting);
+  }
+
+  // Get all meetings for a specific class
+  async getClassMeetings(teacherId: number, classId: number) {
+    // First verify the teacher and class relationship
+    const teacherClass = await this.classesRepository.findOne({
+      where: { 
+        id: classId,
+        teacher: { id: teacherId }
+      }
+    });
+
+    if (!teacherClass) {
+      throw new UnauthorizedException('This class does not belong to the specified teacher');
+    }
+
+    // Get all meetings for this class
+    return this.meetingRepository.find({
+      where: { class: { id: classId } },
+      order: { createdAt: 'DESC' }
+    });
+  }
+
+  // Get a specific meeting
+  async getMeeting(teacherId: number, classId: number, meetingId: number) {
+    const meeting = await this.meetingRepository.findOne({
+      where: { 
+        id: meetingId,
+        class: { 
+          id: classId,
+          teacher: { id: teacherId }
+        }
+      },
+      relations: ['attendances', 'comments']
+    });
+
+    if (!meeting) {
+      throw new NotFoundException('Meeting not found or unauthorized');
+    }
+
+    return meeting;
+  }
+
+  async updateMeeting(teacherId: number, classId: number, meetingId: number, updateMeetingDto: UpdateMeetingDto) {
+    const meeting = await this.meetingRepository.findOne({
+      where: { 
+        id: meetingId,
+        class: { 
+          id: classId,
+          teacher: { id: teacherId }
+        }
+      },
+      relations: ['class']
+    });
+
+    if (!meeting) {
+      throw new NotFoundException('Meeting not found or unauthorized');
+    }
+
+    // Update meeting fields
+    if (updateMeetingDto.content !== undefined) {
+      meeting.content = updateMeetingDto.content;
+    }
+    if (updateMeetingDto.status !== undefined) {
+      meeting.status = updateMeetingDto.status;
+    }
+
+    return this.meetingRepository.save(meeting);
+  }
+
+  async deleteMeeting(teacherId: number, classId: number, meetingId: number) {
+    const meeting = await this.meetingRepository.findOne({
+      where: { 
+        id: meetingId,
+        class: { 
+          id: classId,
+          teacher: { id: teacherId }
+        }
+      }
+    });
+
+    if (!meeting) {
+      throw new NotFoundException('Meeting not found or unauthorized');
+    }
+
+    return this.meetingRepository.remove(meeting);
+  }
+
+  async changeMeetingStatus(teacherId: number, classId: number, meetingId: number, status: MeetingStatus) {
+    const meeting = await this.meetingRepository.findOne({
+      where: { 
+        id: meetingId,
+        class: { 
+          id: classId,
+          teacher: { id: teacherId }
+        }
+      }
+    });
+
+    if (!meeting) {
+      throw new NotFoundException('Meeting not found or unauthorized');
+    }
+
+    meeting.status = status;
+    return this.meetingRepository.save(meeting);
   }
 }
