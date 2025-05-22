@@ -1,7 +1,9 @@
-
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, ManyToOne } from 'typeorm';
 import { Role } from './role.entity';
-
+import { Teacher } from 'src/teacher/entities/teacher.entity';
+import { Supervisor } from 'src/supervisor/entities/supervisor.entity';
+import { Class } from 'src/class/entities/class.entity';
+import { Attendance } from 'src/attendance/entities/attendance.entity';
 
 @Entity()
 export class User {
@@ -15,14 +17,26 @@ export class User {
     password: string;
 
     @Column({ nullable: true })
-    fullName: string;
+    fullName?: string;
 
     @Column({ default: 'pending' })
-    status: string;
+    status?: string;
 
     @Column({nullable: true})
-    avatar: string;
+    avatar?: string;
 
     @OneToMany(() => Role, role => role.user, { cascade: true })
-    roles: Role;
+    roles: Role[];
+
+    @OneToOne(() => Teacher, teacher => teacher.user)
+    teacher?: Teacher[];
+
+    @OneToOne(() => Supervisor, supervisor => supervisor.user)
+    supervisor?: Supervisor;
+
+    @ManyToOne(() => Class, classes => classes.teacher, { nullable: true })
+    class?: Class;  // Only for students/teachers
+
+    @OneToMany(() => Attendance, attendance => attendance.user)
+    attendances?: Attendance[];
 }
